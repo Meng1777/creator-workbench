@@ -329,8 +329,8 @@
         </div>
         <div class="bg-olive-50 rounded-xl p-3 mb-3 flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-olive-800">来源：免费词典 API + 精选词库</p>
-            <p class="text-xs text-gray-500">每日自动更新 · 释义 · 例句 · 发音</p>
+            <p class="text-sm font-medium text-olive-800">来源：口语实战词库 · 目标多邻国水平</p>
+            <p class="text-xs text-gray-500">每日10词 · Lv.1基础 → Lv.2进阶 → Lv.3流利</p>
           </div>
           <a href="https://dictionary.cambridge.org/zhs/" target="_blank" class="text-xs bg-olive-600 text-white px-3 py-2 rounded-lg active:bg-olive-700">查词典</a>
         </div>
@@ -508,50 +508,85 @@
 
     // ==================== 英语词库 ====================
     const ENGLISH_WORD_POOL = [
-      { word: 'abandon', phonetic: '/əˈbændən/', meaning: 'v. 放弃；遗弃', example: 'He abandoned his old car and bought a new one.', example_cn: '他放弃了旧车，买了辆新的。', level: 'CET-4' },
-      { word: 'benefit', phonetic: '/ˈbenɪfɪt/', meaning: 'n. 利益；好处 v. 获益', example: 'Regular exercise benefits your health.', example_cn: '规律运动有益健康。', level: 'CET-4' },
-      { word: 'capability', phonetic: '/ˌkeɪpəˈbɪləti/', meaning: 'n. 能力；才能', example: 'She has the capability to lead the team.', example_cn: '她有能力领导这个团队。', level: 'CET-6' },
-      { word: 'determine', phonetic: '/dɪˈtɜːrmɪn/', meaning: 'v. 决定；确定', example: 'Your attitude determines your altitude.', example_cn: '你的态度决定你的高度。', level: 'CET-4' },
-      { word: 'essential', phonetic: '/ɪˈsenʃl/', meaning: 'adj. 必要的；本质的', example: 'Water is essential for life.', example_cn: '水是生命所必需的。', level: 'CET-4' },
-      { word: 'frequent', phonetic: '/ˈfriːkwənt/', meaning: 'adj. 频繁的；经常的', example: 'He is a frequent visitor to this restaurant.', example_cn: '他是这家餐厅的常客。', level: 'CET-4' },
-      { word: 'generate', phonetic: '/ˈdʒenəreɪt/', meaning: 'v. 产生；生成', example: 'The project will generate many jobs.', example_cn: '这个项目将创造大量就业。', level: 'CET-6' },
-      { word: 'horizon', phonetic: '/həˈraɪzn/', meaning: 'n. 地平线；视野', example: 'Traveling broadens your horizons.', example_cn: '旅行能开阔视野。', level: 'CET-4' },
-      { word: 'implement', phonetic: '/ˈɪmplɪment/', meaning: 'v. 实施；执行 n. 工具', example: 'We need to implement the new policy.', example_cn: '我们需要执行新政策。', level: 'CET-6' },
-      { word: 'journey', phonetic: '/ˈdʒɜːrni/', meaning: 'n. 旅程；旅行', example: 'Life is a journey, not a destination.', example_cn: '人生是一场旅程，不是目的地。', level: 'CET-4' },
-      { word: 'knowledge', phonetic: '/ˈnɒlɪdʒ/', meaning: 'n. 知识；学识', example: 'Knowledge is power.', example_cn: '知识就是力量。', level: 'CET-4' },
-      { word: 'leisure', phonetic: '/ˈleʒər/', meaning: 'n. 休闲；空闲', example: 'I enjoy reading in my leisure time.', example_cn: '我喜欢在空闲时间阅读。', level: 'CET-4' },
-      { word: 'maintain', phonetic: '/meɪnˈteɪn/', meaning: 'v. 维持；保养', example: 'It\'s important to maintain a healthy lifestyle.', example_cn: '保持健康的生活方式很重要。', level: 'CET-6' },
-      { word: 'negotiate', phonetic: '/nɪˈɡoʊʃieɪt/', meaning: 'v. 谈判；协商', example: 'They negotiated a peace agreement.', example_cn: '他们协商达成了和平协议。', level: 'CET-6' },
-      { word: 'obstacle', phonetic: '/ˈɒbstəkl/', meaning: 'n. 障碍；阻碍', example: 'Fear is the biggest obstacle to success.', example_cn: '恐惧是成功路上最大的障碍。', level: 'CET-6' },
-      { word: 'perspective', phonetic: '/pərˈspektɪv/', meaning: 'n. 视角；观点', example: 'Try to see things from a different perspective.', example_cn: '试着从不同角度看问题。', level: 'CET-6' },
-      { word: 'quality', phonetic: '/ˈkwɒləti/', meaning: 'n. 质量；品质', example: 'Quality matters more than quantity.', example_cn: '质量比数量更重要。', level: 'CET-4' },
-      { word: 'recognize', phonetic: '/ˈrekəɡnaɪz/', meaning: 'v. 认出；承认', example: 'I didn\'t recognize you with your new haircut.', example_cn: '你新发型我差点没认出来。', level: 'CET-4' },
-      { word: 'strategy', phonetic: '/ˈstrætədʒi/', meaning: 'n. 策略；战略', example: 'We need a new marketing strategy.', example_cn: '我们需要一个新的营销策略。', level: 'CET-6' },
-      { word: 'tremendous', phonetic: '/trəˈmendəs/', meaning: 'adj. 巨大的；惊人的', example: 'She made a tremendous effort to succeed.', example_cn: '她为成功付出了巨大努力。', level: 'CET-6' },
-      { word: 'unique', phonetic: '/juˈniːk/', meaning: 'adj. 独特的；独一无二的', example: 'Everyone has a unique talent.', example_cn: '每个人都有独特的天赋。', level: 'CET-4' },
-      { word: 'vital', phonetic: '/ˈvaɪtl/', meaning: 'adj. 至关重要的；生死攸关的', example: 'Sleep is vital for good health.', example_cn: '睡眠对健康至关重要。', level: 'CET-6' },
-      { word: 'wisdom', phonetic: '/ˈwɪzdəm/', meaning: 'n. 智慧；明智', example: 'With age comes wisdom.', example_cn: '智慧随年龄增长。', level: 'CET-4' },
-      { word: 'yield', phonetic: '/jiːld/', meaning: 'v. 产出；屈服 n. 产量', example: 'The investment yielded a good return.', example_cn: '这项投资获得了丰厚回报。', level: 'CET-6' },
-      { word: 'zealous', phonetic: '/ˈzeləs/', meaning: 'adj. 热情的；积极的', example: 'She is a zealous supporter of the cause.', example_cn: '她是这项事业的热情支持者。', level: 'CET-6' },
-      { word: 'accomplish', phonetic: '/əˈkɒmplɪʃ/', meaning: 'v. 完成；实现', example: 'She accomplished her goal of running a marathon.', example_cn: '她实现了跑马拉松的目标。', level: 'CET-6' },
-      { word: 'brilliant', phonetic: '/ˈbrɪliənt/', meaning: 'adj. 杰出的；灿烂的', example: 'That\'s a brilliant idea!', example_cn: '真是个绝妙的主意！', level: 'CET-4' },
-      { word: 'circumstance', phonetic: '/ˈsɜːrkəmstæns/', meaning: 'n. 情况；环境', example: 'Under no circumstances should you give up.', example_cn: '在任何情况下都不应放弃。', level: 'CET-6' },
-      { word: 'dedicate', phonetic: '/ˈdedɪkeɪt/', meaning: 'v. 致力于；奉献', example: 'She dedicated her life to helping others.', example_cn: '她毕生致力于帮助他人。', level: 'CET-6' },
-      { word: 'enthusiasm', phonetic: '/ɪnˈθuːziæzəm/', meaning: 'n. 热情；热忱', example: 'His enthusiasm for learning is inspiring.', example_cn: '他对学习的热情令人振奋。', level: 'CET-6' }
+      // ===== Lv.1 CET-6起步：日常交流核心词 =====
+      { word: 'accomplish', phonetic: '/əˈkɒmplɪʃ/', meaning: 'v. 完成；实现', example: 'I finally accomplished my goal of running a 10K.', example_cn: '我终于完成了跑10公里的目标。', scenario: '谈论个人成就', level: 'Lv.1' },
+      { word: 'acknowledge', phonetic: '/əkˈnɒlɪdʒ/', meaning: 'v. 承认；认可', example: 'She acknowledged that the plan had some flaws.', example_cn: '她承认这个计划有一些缺陷。', scenario: '讨论中让步', level: 'Lv.1' },
+      { word: 'anticipate', phonetic: '/ænˈtɪsɪpeɪt/', meaning: 'v. 预期；预料', example: 'I didn\'t anticipate so many people at the party.', example_cn: '我没预料到聚会有这么多人。', scenario: '表达惊讶', level: 'Lv.1' },
+      { word: 'circumstance', phonetic: '/ˈsɜːrkəmstæns/', meaning: 'n. 情况；环境', example: 'Under normal circumstances, I\'d say yes.', example_cn: '一般情况下我会答应。', scenario: '条件表达', level: 'Lv.1' },
+      { word: 'coherent', phonetic: '/koʊˈhɪrənt/', meaning: 'adj. 连贯的；清楚的', example: 'He was so nervous he couldn\'t form a coherent sentence.', example_cn: '他紧张得连一句完整的话都说不出来。', scenario: '描述状态', level: 'Lv.1' },
+      { word: 'comprehensive', phonetic: '/ˌkɒmprɪˈhensɪv/', meaning: 'adj. 全面的；综合的', example: 'Can you give me a comprehensive overview of the project?', example_cn: '你能给我全面介绍一下这个项目吗？', scenario: '工作沟通', level: 'Lv.1' },
+      { word: 'consequence', phonetic: '/ˈkɒnsɪkwens/', meaning: 'n. 后果；结果', example: 'You have to face the consequences of your actions.', example_cn: '你得面对自己行为的后果。', scenario: '劝告他人', level: 'Lv.1' },
+      { word: 'controversy', phonetic: '/ˈkɒntrəvɜːrsi/', meaning: 'n. 争论；争议', example: 'The movie sparked a lot of controversy online.', example_cn: '这部电影在网上引发了很多争议。', scenario: '聊新闻热点', level: 'Lv.1' },
+      { word: 'dedicate', phonetic: '/ˈdedɪkeɪt/', meaning: 'v. 致力于；奉献', example: 'I\'ve dedicated myself to learning English this year.', example_cn: '我今年立志学好英语。', scenario: '表达决心', level: 'Lv.1' },
+      { word: 'deteriorate', phonetic: '/dɪˈtɪriəreɪt/', meaning: 'v. 恶化；变坏', example: 'The weather deteriorated quickly in the afternoon.', example_cn: '下午天气急剧变差。', scenario: '日常闲聊', level: 'Lv.1' },
+      { word: 'diminish', phonetic: '/dɪˈmɪnɪʃ/', meaning: 'v. 减少；削弱', example: 'My interest in the game diminished over time.', example_cn: '我对这个游戏的兴趣随时间减少了。', scenario: '表达感受', level: 'Lv.1' },
+      { word: 'dominate', phonetic: '/ˈdɒmɪneɪt/', meaning: 'v. 主导；控制', example: 'Don\'t let fear dominate your life.', example_cn: '别让恐惧主导你的生活。', scenario: '鼓励他人', level: 'Lv.1' },
+      { word: 'eliminate', phonetic: '/ɪˈlɪmɪneɪt/', meaning: 'v. 消除；淘汰', example: 'Let\'s eliminate the unnecessary steps first.', example_cn: '我们先去掉不必要的步骤。', scenario: '团队协作', level: 'Lv.1' },
+      { word: 'enhance', phonetic: '/ɪnˈhæns/', meaning: 'v. 提高；增强', example: 'Traveling can enhance your understanding of the world.', example_cn: '旅行能增进你对世界的了解。', scenario: '分享感悟', level: 'Lv.1' },
+      { word: 'evaluate', phonetic: '/ɪˈvæljueɪt/', meaning: 'v. 评估；评价', example: 'Let me evaluate the situation before making a decision.', example_cn: '让我先评估一下情况再做决定。', scenario: '决策前思考', level: 'Lv.1' },
+      { word: 'fluctuate', phonetic: '/ˈflʌktʃueɪt/', meaning: 'v. 波动；起伏', example: 'Prices fluctuate depending on the season.', example_cn: '价格随季节波动。', scenario: '购物讨论', level: 'Lv.1' },
+      { word: 'implement', phonetic: '/ˈɪmplɪment/', meaning: 'v. 实施；执行', example: 'We need to implement the new strategy by next month.', example_cn: '我们需要在下个月前实施新策略。', scenario: '工作计划', level: 'Lv.1' },
+      { word: 'inevitable', phonetic: '/ɪnˈevɪtəbl/', meaning: 'adj. 不可避免的', example: 'Mistakes are inevitable when you\'re learning something new.', example_cn: '学新东西时犯错是难免的。', scenario: '自我安慰', level: 'Lv.1' },
+      { word: 'negotiate', phonetic: '/nɪˈɡoʊʃieɪt/', meaning: 'v. 谈判；协商', example: 'I managed to negotiate a better price for the car.', example_cn: '我成功谈到了一个更好的车价。', scenario: '日常砍价', level: 'Lv.1' },
+      { word: 'obstacle', phonetic: '/ˈɒbstəkl/', meaning: 'n. 障碍；阻碍', example: 'Lack of time is my biggest obstacle to learning English.', example_cn: '没时间是我学英语最大的障碍。', scenario: '谈论困难', level: 'Lv.1' },
+      { word: 'pursue', phonetic: '/pərˈsuː/', meaning: 'v. 追求；继续', example: 'She decided to pursue a career in design.', example_cn: '她决定追求设计事业。', scenario: '聊职业规划', level: 'Lv.1' },
+      { word: 'reluctant', phonetic: '/rɪˈlʌktənt/', meaning: 'adj. 不情愿的', example: 'He was reluctant to share his opinion at first.', example_cn: '他起初不太情愿分享自己的观点。', scenario: '描述他人', level: 'Lv.1' },
+      { word: 'sustain', phonetic: '/səˈsteɪn/', meaning: 'v. 维持；保持', example: 'It\'s hard to sustain motivation without seeing progress.', example_cn: '看不到进步很难维持动力。', scenario: '学习心得', level: 'Lv.1' },
+      { word: 'tedious', phonetic: '/ˈtiːdiəs/', meaning: 'adj. 乏味的；冗长的', example: 'Sorting through all these emails is so tedious.', example_cn: '整理这些邮件太无聊了。', scenario: '吐槽日常', level: 'Lv.1' },
+      { word: 'vulnerable', phonetic: '/ˈvʌlnərəbl/', meaning: 'adj. 脆弱的；易受伤的', example: 'I feel vulnerable when I speak in front of a crowd.', example_cn: '在人前讲话时我觉得很脆弱。', scenario: '表达感受', level: 'Lv.1' },
+
+      // ===== Lv.2 进阶：口语流利表达 =====
+      { word: 'getaway', phonetic: '/ˈɡetəweɪ/', meaning: 'n. 逃离；短假出行', example: 'We\'re planning a weekend getaway to the beach.', example_cn: '我们计划周末去海边度个短假。', scenario: '约朋友出去玩', level: 'Lv.2' },
+      { word: 'hangout', phonetic: '/ˈhæŋaʊt/', meaning: 'n. 常去的地方 v. 闲逛', example: 'This café is our usual hangout spot.', example_cn: '这家咖啡馆是我们常去的地方。', scenario: '日常邀约', level: 'Lv.2' },
+      { word: 'overwhelmed', phonetic: '/ˌoʊvərˈwelmd/', meaning: 'adj. 不知所措的；压力大的', example: 'I\'m totally overwhelmed with work this week.', example_cn: '这周工作把我压得喘不过气。', scenario: '倾诉压力', level: 'Lv.2' },
+      { word: 'laid-back', phonetic: '/leɪd bæk/', meaning: 'adj. 随和的；悠闲的', example: 'He\'s pretty laid-back, nothing really bothers him.', example_cn: '他很随和，什么事都不太在意。', scenario: '描述性格', level: 'Lv.2' },
+      { word: 'catch up', phonetic: '/kætʃ ʌp/', meaning: 'v. 叙旧；赶上', example: 'Let\'s grab coffee and catch up sometime!', example_cn: '找时间喝杯咖啡叙叙旧吧！', scenario: '约老朋友', level: 'Lv.2' },
+      { word: 'figure out', phonetic: '/ˈfɪɡjər aʊt/', meaning: 'v. 想明白；搞清楚', example: 'I can\'t figure out how to use this app.', example_cn: '我搞不懂这个App怎么用。', scenario: '求助', level: 'Lv.2' },
+      { word: 'end up', phonetic: '/end ʌp/', meaning: 'v. 最终成为；结果', example: 'We ended up staying at home all weekend.', example_cn: '我们最终整个周末都待在家了。', scenario: '讲经历', level: 'Lv.2' },
+      { word: 'freak out', phonetic: '/friːk aʊt/', meaning: 'v. 崩溃；吓坏了', example: 'Don\'t freak out, but I accidentally broke your mug.', example_cn: '别慌，我不小心打碎了你的杯子。', scenario: '尴尬坦白', level: 'Lv.2' },
+      { word: 'roll with it', phonetic: '/roʊl wɪð ɪt/', meaning: 'v. 随它去；随机应变', example: 'Plans changed? Just roll with it.', example_cn: '计划变了？随遇而安吧。', scenario: '安慰朋友', level: 'Lv.2' },
+      { word: 'no-brainer', phonetic: '/noʊ ˈbreɪnər/', meaning: 'n. 显而易见的事', example: 'Taking the job is a no-brainer—the salary is great.', example_cn: '接这份工作还用想吗——薪水很好。', scenario: '给建议', level: 'Lv.2' },
+      { word: 'under the weather', phonetic: '/ˈʌndər ðə ˈweðər/', meaning: 'adj. 身体不舒服', example: 'I\'m feeling a bit under the weather today.', example_cn: '我今天有点不舒服。', scenario: '请假', level: 'Lv.2' },
+      { word: 'on the same page', phonetic: '/ɑːn ðə seɪm peɪdʒ/', meaning: 'adj. 达成共识的', example: 'Let\'s make sure we\'re on the same page before we start.', example_cn: '开始前确保我们达成了一致。', scenario: '团队沟通', level: 'Lv.2' },
+      { word: 'give it a shot', phonetic: '/ɡɪv ɪt ə ʃɒt/', meaning: 'v. 试一试', example: 'I\'ve never cooked Italian food, but I\'ll give it a shot.', example_cn: '我从没做过意大利菜，但试试吧。', scenario: '尝试新事物', level: 'Lv.2' },
+      { word: 'burnout', phonetic: '/ˈbɜːrnaʊt/', meaning: 'n. 精疲力竭；倦怠', example: 'I took a vacation to recover from burnout.', example_cn: '我休了个假来从倦怠中恢复。', scenario: '聊状态', level: 'Lv.2' },
+      { word: 'ups and downs', phonetic: '/ʌps ænd daʊnz/', meaning: 'n. 起起落落', example: 'Every relationship has its ups and downs.', example_cn: '每段关系都有起起落落。', scenario: '情感倾诉', level: 'Lv.2' },
+      { word: 'spill the tea', phonetic: '/spɪl ðə tiː/', meaning: 'v. 八卦；爆料', example: 'Okay, spill the tea! What happened last night?', example_cn: '好了，快说！昨晚怎么了？', scenario: '朋友八卦', level: 'Lv.2' },
+      { word: 'rip-off', phonetic: '/rɪp ɒf/', meaning: 'n. 敲竹杠；坑人的东西', example: '50 bucks for this? What a rip-off!', example_cn: '这东西50块？太坑了！', scenario: '吐槽消费', level: 'Lv.2' },
+      { word: 'call it a day', phonetic: '/kɔːl ɪt ə deɪ/', meaning: 'v. 今天就到这吧', example: 'We\'ve done enough, let\'s call it a day.', example_cn: '做得差不多了，今天就到这吧。', scenario: '结束工作', level: 'Lv.2' },
+      { word: 'out of the blue', phonetic: '/aʊt əv ðə bluː/', meaning: 'adv. 突然；毫无预兆', example: 'He called me completely out of the blue.', example_cn: '他突然给我打了个电话，完全没预兆。', scenario: '讲意外事件', level: 'Lv.2' },
+      { word: 'go with the flow', phonetic: '/ɡoʊ wɪð ðə floʊ/', meaning: 'v. 顺其自然', example: 'I don\'t have a plan, I\'ll just go with the flow.', example_cn: '我没计划，顺其自然吧。', scenario: '表达态度', level: 'Lv.2' },
+
+      // ===== Lv.3 口语流利：地道母语表达 =====
+      { word: 'I\'m not gonna lie', phonetic: '/aɪm nɒt ˈɡɒnə laɪ/', meaning: 'phrase. 说真的；说实话', example: 'I\'m not gonna lie, that was the best meal I\'ve had in months.', example_cn: '说真的，这是我这几个月吃过最好的一顿。', scenario: '强调真实感受', level: 'Lv.3' },
+      { word: 'at the end of the day', phonetic: '/ət ði end əv ðə deɪ/', meaning: 'phrase. 归根结底；说到底', example: 'At the end of the day, it\'s your decision.', example_cn: '说到底，这是你的决定。', scenario: '总结观点', level: 'Lv.3' },
+      { word: 'it is what it is', phonetic: '/ɪt ɪz wɒt ɪt ɪz/', meaning: 'phrase. 事情就是这样；没办法', example: 'We lost the game. It is what it is.', example_cn: '比赛输了，事情已经这样了。', scenario: '接受现实', level: 'Lv.3' },
+      { word: 'to be honest', phonetic: '/tə biː ˈɒnɪst/', meaning: 'phrase. 老实说', example: 'To be honest, I don\'t really like horror movies.', example_cn: '老实说，我不太喜欢恐怖片。', scenario: '表达真实想法', level: 'Lv.3' },
+      { word: 'you know what', phonetic: '/juː noʊ wɒt/', meaning: 'phrase. 你知道吗（引出话题）', example: 'You know what? I think we should just go for it.', example_cn: '你知道吗？我觉得我们就该放手去做。', scenario: '突然想到主意', level: 'Lv.3' },
+      { word: 'long story short', phonetic: '/lɒŋ ˈstɔːri ʃɔːrt/', meaning: 'phrase. 长话短说', example: 'Long story short, I missed the flight and had to rebook.', example_cn: '长话短说，我错过了航班只好重订。', scenario: '简化叙述', level: 'Lv.3' },
+      { word: 'for what it\'s worth', phonetic: '/fər wɒt ɪts wɜːrθ/', meaning: 'phrase. 不管怎样（表态前用）', example: 'For what it\'s worth, I think you did the right thing.', example_cn: '不管怎样，我觉得你做得对。', scenario: '给出意见', level: 'Lv.3' },
+      { word: 'I mean', phonetic: '/aɪ miːn/', meaning: 'phrase. 我的意思是（补充解释）', example: 'I mean, it\'s not bad, but it could be better.', example_cn: '我的意思是，不算差，但还能更好。', scenario: '补充修正', level: 'Lv.3' },
+      { word: 'make sense', phonetic: '/meɪk sens/', meaning: 'v. 有道理；说得通', example: 'That makes sense, I never thought of it that way.', example_cn: '有道理，我从没这样想过。', scenario: '表示理解', level: 'Lv.3' },
+      { word: 'for real', phonetic: '/fər riːl/', meaning: 'adv. 真的；认真的', example: 'Are you for real? That\'s amazing!', example_cn: '你认真的吗？太棒了！', scenario: '表达惊讶', level: 'Lv.3' },
+      { word: 'so far so good', phonetic: '/soʊ fɑːr soʊ ɡʊd/', meaning: 'phrase. 到目前为止还不错', example: 'How\'s the new job? So far so good.', example_cn: '新工作怎么样？目前还不错。', scenario: '汇报近况', level: 'Lv.3' },
+      { word: 'fair enough', phonetic: '/fer ɪˈnʌf/', meaning: 'phrase. 有道理；说得过去', example: 'You don\'t want to come? Fair enough, maybe next time.', example_cn: '你不想来？行吧，下次再说。', scenario: '接受对方理由', level: 'Lv.3' },
+      { word: 'no worries', phonetic: '/noʊ ˈwɜːriz/', meaning: 'phrase. 没问题；别担心', example: 'Thanks for the help! — No worries, anytime.', example_cn: '谢谢帮忙！——没事，随时找我。', scenario: '回应感谢', level: 'Lv.3' },
+      { word: 'sounds like a plan', phonetic: '/saʊndz laɪk ə plæn/', meaning: 'phrase. 听起来不错', example: 'Let\'s meet at 6 and grab dinner. Sounds like a plan!', example_cn: '6点见面吃晚饭，听起来不错！', scenario: '确认约定', level: 'Lv.3' },
+      { word: 'I\'ll buy that', phonetic: '/aɪl baɪ ðæt/', meaning: 'phrase. 我信了；说得通', example: 'He said he was stuck in traffic? I\'ll buy that.', example_cn: '他说堵车了？我信。', scenario: '表示相信', level: 'Lv.3' }
     ];
 
     // ==================== 英语学习视频 ====================
     const ENGLISH_VIDEO_POOL = [
-      { title: '零基础英语口语入门：日常对话20句', up: '英语兔', bv: 'BV1rE411B7Vj', desc: '从零开始学口语，20句最常用的日常英语对话，跟读练习。' },
-      { title: '每天5分钟英语听力训练 Day 1', up: 'Lisa美语', bv: 'BV1a54y1S7gP', desc: '5分钟精听训练，适合通勤路上练耳朵，循序渐进提升听力。' },
-      { title: '英语语法全覆盖：从入门到精通', up: '英语老师大白', bv: 'BV1cW411E7jL', desc: '系统讲解英语语法核心知识点，适合考研/CET-4/CET-6备考。' },
-      { title: '3000核心词汇速记法', up: '考研英语刘晓艳', bv: 'BV1JE411J7p5', desc: '高效记忆法背单词，每天30个，100天搞定3000核心词汇。' },
-      { title: 'TED演讲精听：如何高效学习', up: 'TEDx Talks', bv: 'BV1nE411H7qu', desc: '经典TED演讲双语字幕精听，学英语同时获取灵感。' },
-      { title: '英语写作提升：万能句型30个', up: '顾家北写作', bv: 'BV1uT4y1V7jE', desc: '雅思/四六级写作万能句型，直接套用快速提分。' },
-      { title: '美式发音纠正：告别中式英语', up: 'Rachel\'s English', bv: 'BV1gW411F7qK', desc: '美式英语发音系统训练，纠正中国人常见发音错误。' },
-      { title: '商务英语邮件写作技巧', up: '职场英语君', bv: 'BV1gE411B7cZ', desc: '职场必备邮件写作模板，搞定英文邮件不求人。' },
-      { title: '英语新闻精读：BBC/CNN每日一练', up: '英语学习笔记', bv: 'BV1P5411Y7ep', desc: '每日精选英语新闻片段精读，积累词汇了解时事。' },
-      { title: '口语实战：和外国人聊天不尴尬', up: '口语老炮儿马思瑞', bv: 'BV1gZ4y1M7Zr', desc: '真实场景对话演练，学会地道表达，自信开口说英语。' }
+      { title: '日常英语口语：50个最高频对话场景', up: '英语兔', bv: 'BV1rE411B7Vj', desc: '覆盖点餐、购物、问路、闲聊等50个真实场景，影子跟读练口语。' },
+      { title: '影子跟读法：30天口语蜕变计划', up: 'Lisa美语', bv: 'BV1a54y1S7gP', desc: '每天10分钟影子跟读训练，模仿母语者语调节奏，30天明显进步。' },
+      { title: '和外国人聊天实战：50个地道表达', up: '口语老炮儿马思瑞', bv: 'BV1gZ4y1M7Zr', desc: '真实对话场景演练，学会老外天天用但课本不教的口语表达。' },
+      { title: '美式发音全攻略：从音标到连读', up: 'Rachel\'s English', bv: 'BV1gW411F7qK', desc: '系统训练美式发音，纠正中式口音，学会连读弱读让口语更自然。' },
+      { title: '英语口语每日跟读 Day 1', up: 'English with Lucy', bv: 'BV1a54y1S7gP', desc: '精选日常对话片段，跟读模仿，练就自然流利的英语口语。' },
+      { title: 'TED演讲跟读：练口语+学思维', up: 'TEDx Talks', bv: 'BV1nE411H7qu', desc: '精选TED演讲片段跟读训练，既练口语表达又学地道思维方式。' },
+      { title: '出国旅行英语口语100句', up: '旅行英语君', bv: 'BV1gE411B7cZ', desc: '机场、酒店、餐厅、购物全场景旅行英语，出国不再开不了口。' },
+      { title: '职场英语口语：开会/汇报/社交', up: '职场英语君', bv: 'BV1uT4y1V7jE', desc: '职场高频口语场景，学会用英语自信开会、汇报和同事闲聊。' },
+      { title: '英语口语流利说：克服开口恐惧', up: '英语老师大白', bv: 'BV1cW411E7jL', desc: '从不敢开口到自信表达，心理建设+实战练习双管齐下。' },
+      { title: '看美剧学口语：经典台词精讲', up: '英语学习笔记', bv: 'BV1P5411Y7ep', desc: '精选美剧经典片段，拆解地道口语表达，看剧也能练口语。' }
     ];
 
     // ==================== 工具函数 ====================
@@ -883,7 +918,7 @@
 
     // ==================== 每日英语 ====================
     function getDailyWords() {
-      // 根据日期生成种子，每天固定5个单词
+      // 根据日期生成种子，每天固定10个单词
       const today = new Date().toISOString().split('T')[0];
       const seed = today.split('-').join('');
       const num = parseInt(seed);
@@ -891,7 +926,7 @@
       const words = [];
       const used = new Set();
       let idx = num % count;
-      while (words.length < 5) {
+      while (words.length < 10) {
         if (!used.has(idx)) {
           words.push(ENGLISH_WORD_POOL[idx]);
           used.add(idx);
@@ -960,7 +995,7 @@
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
                 <span class="bg-olive-600 text-white text-xs px-2 py-0.5 rounded-full">#${idx + 1}</span>
-                <span class="text-xs text-gray-400">${escapeHtml(w.level)}</span>
+                <span class="text-xs px-2 py-0.5 rounded-full ${w.level === 'Lv.3' ? 'bg-red-100 text-red-600' : w.level === 'Lv.2' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}">${escapeHtml(w.level)}</span>
               </div>
               <h4 class="text-lg font-bold text-gray-800">${escapeHtml(w.word)}</h4>
               <p class="text-sm text-gray-500">${escapeHtml(w.phonetic)}</p>
@@ -971,6 +1006,7 @@
             </label>
           </div>
           <p class="text-sm text-gray-700 mb-2"><b>释义：</b>${escapeHtml(w.meaning)}</p>
+          ${w.scenario ? `<p class="text-xs text-olive-600 mb-2">💬 口语场景：${escapeHtml(w.scenario)}</p>` : ''}
           <div class="bg-white rounded-lg p-2 mt-2">
             <p class="text-sm text-gray-600 italic">"${escapeHtml(w.example)}"</p>
             <p class="text-xs text-gray-400 mt-1">${escapeHtml(w.example_cn)}</p>
@@ -1041,7 +1077,7 @@
     }
 
     function updateEnglishProgress() {
-      const total = 5;
+      const total = 10;
       const done = (appData.english.words_checked || []).length;
       const pct = Math.round(done / total * 100);
       document.getElementById('englishProgressBar').style.width = pct + '%';
