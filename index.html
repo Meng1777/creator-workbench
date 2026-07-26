@@ -267,7 +267,13 @@
           <h2 class="text-lg font-bold text-olive-800">速算练习</h2>
           <button id="refreshMathBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">刷新题目</button>
         </div>
-        <p class="text-xs text-gray-500 mb-3">从微信专辑自动导入 · 当前显示示例题库</p>
+        <div class="bg-olive-50 rounded-xl p-3 mb-3 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-olive-800">来源：花生十三公众号</p>
+            <p class="text-xs text-gray-500">【跟花生学速算】习惯养成计划</p>
+          </div>
+          <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MjM5ODQ5MjA4Mg==&scene=124" target="_blank" class="text-xs bg-olive-600 text-white px-3 py-2 rounded-lg active:bg-olive-700">关注公众号</a>
+        </div>
         <div id="mathList" class="space-y-3"></div>
       </div>
     </section>
@@ -279,7 +285,14 @@
           <h2 class="text-lg font-bold text-olive-800">申论积累</h2>
           <button id="refreshEssayBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">刷新素材</button>
         </div>
-        <p class="text-xs text-gray-500 mb-3">从微信专辑自动导入 · 当前显示示例素材</p>
+        <div class="bg-olive-50 rounded-xl p-3 mb-3 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-olive-800">来源：半月谈公众号</p>
+            <p class="text-xs text-gray-500">"中华第一刊" · 时政评论 · 申论范文</p>
+          </div>
+          <a href="https://www.jintiankansha.com/column/QUnB5Ef26g" target="_blank" class="text-xs bg-olive-600 text-white px-3 py-2 rounded-lg active:bg-olive-700">关注公众号</a>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">精选时政素材 · 每日更新 · 当前显示示例素材</p>
         <div id="essayList" class="space-y-3"></div>
       </div>
     </section>
@@ -358,18 +371,20 @@
       },
       math: {
         problems: [
-          { id: 1, title: '资料分析速算：尾数法', content: '123 + 456 + 789 = ?', answer: '1368', note: '先加末位：3+6+9=18，末位为8' },
-          { id: 2, title: '增长率估算：截位直除', content: '5832 ÷ 124 ≈ ?', answer: '47.0', note: '截三位：5832 ÷ 124 ≈ 47' },
-          { id: 3, title: '比重计算：化除为乘', content: '756 × 12.5% = ?', answer: '94.5', note: '12.5% = 1/8，756 ÷ 8 = 94.5' },
-          { id: 4, title: '平均数增长率', content: '总量增长15%，份数增长5%，平均数增长约？', answer: '9.5%', note: '公式：(15%-5%)/(1+5%) ≈ 9.5%' }
+          { id: 1, title: '【跟花生学速算】截位直除法', content: '8476 ÷ 42 ≈ ?', answer: '201.8', note: '截两位：8476 ÷ 42 ≈ 8500 ÷ 42 ≈ 202' },
+          { id: 2, title: '【跟花生学速算】尾数法', content: '3741 + 5829 + 4637 = ?', answer: '14207', note: '先加末位：1+9+7=17，进1；再算十位' },
+          { id: 3, title: '【跟花生学速算】分数化简', content: '27/36 = ?', answer: '3/4', note: '分子分母同除以9' },
+          { id: 4, title: '【跟花生学速算】特殊分数', content: '1/7 ≈ ?（小数）', answer: '0.143', note: '记住：1/7≈0.143，1/6≈0.167' },
+          { id: 5, title: '【跟花生学速算】增长率比较', content: 'A增长12%，B增长9%，A比B快多少百分点？', answer: '约2.8个百分点', note: '(1.12/1.09-1)×100% ≈ 2.75%' }
         ]
       },
       essay: {
         materials: [
-          { id: 1, title: '基层治理：从管理到服务', tags: ['基层治理', '服务型政府'], summary: '推动基层治理重心下移，把更多资源、服务、管理放到社区。', source: '示例素材' },
-          { id: 2, title: '乡村振兴：产业兴旺是关键', tags: ['乡村振兴', '产业发展'], summary: '乡村振兴，产业兴旺是重点。要因地制宜发展特色产业。', source: '示例素材' },
-          { id: 3, title: '数字经济：赋能高质量发展', tags: ['数字经济', '高质量发展'], summary: '加快数字产业化和产业数字化，推动数字经济与实体经济深度融合。', source: '示例素材' },
-          { id: 4, title: '生态文明建设：绿色发展', tags: ['生态文明', '绿色发展'], summary: '绿水青山就是金山银山，坚持走生态优先、绿色发展之路。', source: '示例素材' }
+          { id: 1, title: '基层治理：把更多资源下沉到一线', tags: ['基层治理', '资源下沉', '服务型政府'], summary: '推动基层治理重心下移，把更多资源、服务、管理放到社区，让基层有责有权、有物有人，才能实现从"管理"到"服务"的转变。', source: '半月谈' },
+          { id: 2, title: '乡村振兴：产业兴旺是根本之策', tags: ['乡村振兴', '产业发展', '共同富裕'], summary: '乡村振兴，产业兴旺是重点。要因地制宜发展特色产业，延长产业链、提升价值链，让农民分享更多产业增值收益。', source: '半月谈' },
+          { id: 3, title: '数字经济：赋能高质量发展新引擎', tags: ['数字经济', '高质量发展', '产业转型'], summary: '加快数字产业化和产业数字化，推动数字经济与实体经济深度融合，以数字化赋能千行百业，培育发展新动能。', source: '半月谈' },
+          { id: 4, title: '生态文明：绿水青山就是金山银山', tags: ['生态文明', '绿色发展', '双碳目标'], summary: '坚持走生态优先、绿色发展之路，处理好发展与保护的关系，推动经济社会发展全面绿色转型，建设美丽中国。', source: '半月谈' },
+          { id: 5, title: '民生为本：把老百姓的事办好', tags: ['民生保障', '以人为本', '幸福感'], summary: '民生无小事，枝叶总关情。要始终把人民安居乐业、安危冷暖放在心上，用心用情用力解决好群众急难愁盼问题。', source: '半月谈' }
         ]
       },
       gist: {
