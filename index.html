@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>创作工作台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            olive: {
+              50: '#f7f8f4',
+              100: '#eef0e6',
+              200: '#d9dec8',
+              300: '#bcc4a0',
+              400: '#9ca87a',
+              500: '#7f8b58',
+              600: '#626b42',
+              700: '#4d5536',
+              800: '#3f452d',
+              900: '#353a27',
+            }
+          },
+          fontFamily: {
+            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { overscroll-behavior-y: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .safe-top { padding-top: env(safe-area-inset-top); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .drawer-open { transform: translateX(0); }
+    .drawer-closed { transform: translateX(-100%); }
+    .page-active { display: block; }
+    .page-hidden { display: none; }
+    .checkbox:checked + div { text-decoration: line-through; opacity: 0.6; }
+    .card-shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); }
+    .card-shadow-sm { box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+</head>
+<body class="bg-olive-50 text-gray-800 antialiased">
+
+  <!-- 顶部导航栏 -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-olive-600 text-white safe-top card-shadow-sm">
+    <div class="flex items-center justify-between h-14 px-4">
+      <button id="menuBtn" class="p-2 -ml-2 rounded-full active:bg-olive-700 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+      <h1 id="pageTitle" class="text-lg font-semibold tracking-wide">每日计划</h1>
+      <div class="w-8"></div>
+    </div>
+  </header>
+
+  <!-- 左侧抽屉导航 -->
+  <div id="drawerOverlay" class="fixed inset-0 bg-black/40 z-50 hidden transition-opacity opacity-0"></div>
+  <aside id="drawer" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 drawer-closed transition-transform duration-300 ease-out card-shadow">
+    <div class="h-full flex flex-col">
+      <div class="bg-olive-600 text-white p-6 safe-top">
+        <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mb-3">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        </div>
+        <h2 class="text-xl font-bold">创作工作台</h2>
+        <p class="text-olive-100 text-sm mt-1">移动创作 · 随时随地</p>
+      </div>
+      <nav class="flex-1 overflow-y-auto p-3 space-y-1">
+        <button data-page="daily" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] bg-olive-50 text-olive-800 font-medium">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          每日计划
+        </button>
+        <button data-page="ideas" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+          选题灵感
+        </button>
+        <button data-page="recreate" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+          爆款二创
+        </button>
+        <button data-page="review" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          内容复盘
+        </button>
+        <button data-page="memo" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          备忘录
+        </button>
+        <button data-page="math" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          速算练习
+        </button>
+        <button data-page="essay" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          申论积累
+        </button>
+        <button data-page="settings" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          设置
+        </button>
+      </nav>
+      <div class="p-4 border-t border-gray-100 text-xs text-gray-400 text-center">
+        数据保存在本机 · 热点云端同步
+      </div>
+    </div>
+  </aside>
+
+  <!-- 主内容区 -->
+  <main class="pt-14 pb-6 px-4 min-h-screen safe-bottom">
+
+    <!-- 每日计划 -->
+    <section id="page-daily" class="page page-active space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-end mb-3">
+          <div>
+            <p class="text-sm text-gray-500" id="currentDate">今天</p>
+            <h2 class="text-xl font-bold text-olive-800">今日任务完成度</h2>
+          </div>
+          <span class="text-3xl font-bold text-olive-600" id="dailyProgressText">0%</span>
+        </div>
+        <div class="w-full h-3 bg-olive-100 rounded-full overflow-hidden">
+          <div id="dailyProgressBar" class="h-full bg-olive-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-olive-800">待办清单</h3>
+          <button id="addTaskBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">+ 添加</button>
+        </div>
+        <div id="dailyTasks" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <h3 class="font-bold text-olive-800 mb-3">今日数据概览</h3>
+        <div class="grid grid-cols-4 gap-3 text-center">
+          <div class="bg-olive-50 rounded-xl p-3">
+            <p class="text-xs text-gray-500">播放</p>
+            <p id="dailyViews" class="text-lg font-bold text-olive-700">0</p>
+          </div>
+          <div class="bg-olive-50 rounded-xl p-3">
+            <p class="text-xs text-gray-500">点赞</p>
+            <p id="dailyLikes" class="text-lg font-bold text-olive-700">0</p>
+          </div>
+          <div class="bg-olive-50 rounded-xl p-3">
+            <p class="text-xs text-gray-500">评论</p>
+            <p id="dailyComments" class="text-lg font-bold text-olive-700">0</p>
+          </div>
+          <div class="bg-olive-50 rounded-xl p-3">
+            <p class="text-xs text-gray-500">转发</p>
+            <p id="dailyShares" class="text-lg font-bold text-olive-700">0</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 选题灵感 -->
+    <section id="page-ideas" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-4 card-shadow flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-bold text-olive-800">每日选题灵感</h2>
+          <p class="text-xs text-gray-500" id="ideasUpdateTime">数据更新时间：加载中...</p>
+        </div>
+        <button id="refreshIdeasBtn" class="p-2 bg-olive-100 rounded-full text-olive-700 active:bg-olive-200 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </button>
+      </div>
+      <div id="ideasList" class="space-y-3"></div>
+    </section>
+
+    <!-- 爆款二创 -->
+    <section id="page-recreate" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-4 card-shadow flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-bold text-olive-800">爆款热点二创</h2>
+          <p class="text-xs text-gray-500" id="recreateUpdateTime">数据更新时间：加载中...</p>
+        </div>
+        <button id="refreshRecreateBtn" class="p-2 bg-olive-100 rounded-full text-olive-700 active:bg-olive-200 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </button>
+      </div>
+      <div id="recreateList" class="space-y-3"></div>
+    </section>
+
+    <!-- 内容复盘 -->
+    <section id="page-review" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <h2 class="text-lg font-bold text-olive-800 mb-4">今日数据</h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">播放量</label>
+            <input type="number" data-field="views" class="review-input w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300" placeholder="0">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">点赞数</label>
+            <input type="number" data-field="likes" class="review-input w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300" placeholder="0">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">评论数</label>
+            <input type="number" data-field="comments" class="review-input w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300" placeholder="0">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">转发数</label>
+            <input type="number" data-field="shares" class="review-input w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300" placeholder="0">
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 card-shadow space-y-4">
+        <h2 class="text-lg font-bold text-olive-800">复盘分析</h2>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">亮点</label>
+          <textarea data-field="highlights" class="review-text w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300 h-20 resize-none" placeholder="今天哪些内容表现好？"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">问题</label>
+          <textarea data-field="problems" class="review-text w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300 h-20 resize-none" placeholder="遇到了什么问题？"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">优化方向</label>
+          <textarea data-field="optimizations" class="review-text w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300 h-20 resize-none" placeholder="下次如何改进？"></textarea>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <h3 class="font-bold text-olive-800 mb-3">互动率</h3>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm text-gray-600">点赞率</span>
+          <span id="likeRate" class="text-lg font-bold text-olive-700">0%</span>
+        </div>
+        <div class="w-full h-2 bg-olive-100 rounded-full overflow-hidden">
+          <div id="likeRateBar" class="h-full bg-olive-500 rounded-full transition-all" style="width: 0%"></div>
+        </div>
+        <div class="flex items-center justify-between mb-2 mt-4">
+          <span class="text-sm text-gray-600">评论率</span>
+          <span id="commentRate" class="text-lg font-bold text-olive-700">0%</span>
+        </div>
+        <div class="w-full h-2 bg-olive-100 rounded-full overflow-hidden">
+          <div id="commentRateBar" class="h-full bg-olive-500 rounded-full transition-all" style="width: 0%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 备忘录 -->
+    <section id="page-memo" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold text-olive-800">创作备忘录</h2>
+          <button id="addMemoBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">+ 新增</button>
+        </div>
+        <div id="memoList" class="space-y-2"></div>
+      </div>
+    </section>
+
+    <!-- 速算练习 -->
+    <section id="page-math" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold text-olive-800">速算练习</h2>
+          <button id="refreshMathBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">刷新题目</button>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">从微信专辑自动导入 · 当前显示示例题库</p>
+        <div id="mathList" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- 申论积累 -->
+    <section id="page-essay" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold text-olive-800">申论积累</h2>
+          <button id="refreshEssayBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">刷新素材</button>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">从微信专辑自动导入 · 当前显示示例素材</p>
+        <div id="essayList" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- 设置 -->
+    <section id="page-settings" class="page page-hidden space-y-4 pt-4">
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <h2 class="text-lg font-bold text-olive-800 mb-4">云端数据设置</h2>
+        <p class="text-xs text-gray-500 mb-4">填写 GitHub Gist 信息后，选题灵感和爆款二创数据会自动从云端同步。</p>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">GitHub 用户名</label>
+            <input type="text" id="gistUsernameInput" class="w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300" placeholder="例如：zhangsan">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Gist ID</label>
+            <input type="text" id="gistIdInput" class="w-full bg-olive-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-olive-300" placeholder="例如：abc123def456">
+          </div>
+          <button id="saveGistConfigBtn" class="w-full bg-olive-600 text-white py-3 rounded-xl font-medium active:bg-olive-700 transition">保存并刷新</button>
+        </div>
+
+        <div class="mt-5 p-3 bg-olive-50 rounded-xl text-xs text-gray-600">
+          <p class="mb-1"><b>当前状态：</b><span id="gistStatusText">未配置</span></p>
+          <p class="text-gray-400">Gist Raw URL: <span id="gistUrlText">未配置</span></p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <h2 class="text-lg font-bold text-olive-800 mb-4">本地数据</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <button id="exportDataBtn" class="bg-olive-100 text-olive-700 py-3 rounded-xl font-medium active:bg-olive-200 transition">导出备份</button>
+          <button id="importDataBtn" class="bg-olive-100 text-olive-700 py-3 rounded-xl font-medium active:bg-olive-200 transition">导入备份</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 数据加载提示 -->
+  <div id="loadingToast" class="fixed top-20 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full text-sm opacity-0 pointer-events-none transition-opacity z-50">
+    加载中...
+  </div>
+
+  <script>
+    // ==================== 数据存储 ====================
+    const STORAGE_KEY = 'creator_workbench_v1';
+    const GIST_ID_KEY = 'cw_gist_id';
+    const GIST_DATA_KEY = 'cw_gist_data';
+    const GIST_CACHE_TIME = 5 * 60 * 1000; // 5分钟缓存
+
+    // 默认数据
+    const defaultData = {
+      daily: {
+        date: new Date().toISOString().split('T')[0],
+        tasks: [
+          { id: 1, text: '发布1条柯基/美妆类短视频', done: false },
+          { id: 2, text: '回复评论区粉丝留言', done: false },
+          { id: 3, text: '查看今日选题灵感并记录3个', done: false },
+          { id: 4, text: '拍摄柯基日常或穿搭素材', done: false },
+          { id: 5, text: '记录今日数据复盘', done: false }
+        ]
+      },
+      review: {
+        views: '', likes: '', comments: '', shares: '',
+        highlights: '', problems: '', optimizations: ''
+      },
+      memo: {
+        items: [
+          { id: 1, text: '整理本周柯基+美妆爆款选题', done: false },
+          { id: 2, text: '拍摄3个化妆教程素材', done: false },
+          { id: 3, text: '更新护肤好物橱窗', done: false },
+          { id: 4, text: '学习同赛道头部账号内容', done: false },
+          { id: 5, text: '准备下周穿搭换季内容', done: false }
+        ]
+      },
+      math: {
+        problems: [
+          { id: 1, title: '资料分析速算：尾数法', content: '123 + 456 + 789 = ?', answer: '1368', note: '先加末位：3+6+9=18，末位为8' },
+          { id: 2, title: '增长率估算：截位直除', content: '5832 ÷ 124 ≈ ?', answer: '47.0', note: '截三位：5832 ÷ 124 ≈ 47' },
+          { id: 3, title: '比重计算：化除为乘', content: '756 × 12.5% = ?', answer: '94.5', note: '12.5% = 1/8，756 ÷ 8 = 94.5' },
+          { id: 4, title: '平均数增长率', content: '总量增长15%，份数增长5%，平均数增长约？', answer: '9.5%', note: '公式：(15%-5%)/(1+5%) ≈ 9.5%' }
+        ]
+      },
+      essay: {
+        materials: [
+          { id: 1, title: '基层治理：从管理到服务', tags: ['基层治理', '服务型政府'], summary: '推动基层治理重心下移，把更多资源、服务、管理放到社区。', source: '示例素材' },
+          { id: 2, title: '乡村振兴：产业兴旺是关键', tags: ['乡村振兴', '产业发展'], summary: '乡村振兴，产业兴旺是重点。要因地制宜发展特色产业。', source: '示例素材' },
+          { id: 3, title: '数字经济：赋能高质量发展', tags: ['数字经济', '高质量发展'], summary: '加快数字产业化和产业数字化，推动数字经济与实体经济深度融合。', source: '示例素材' },
+          { id: 4, title: '生态文明建设：绿色发展', tags: ['生态文明', '绿色发展'], summary: '绿水青山就是金山银山，坚持走生态优先、绿色发展之路。', source: '示例素材' }
+        ]
+      },
+      gist: {
+        updated_at: null,
+        hot_boards: [],
+        ideas: [],
+        recreate: []
+      }
+    };
+
+    // 模拟的云端数据（柯基狗狗/穿搭/化妆/护肤赛道）
+    const mockCloudData = {
+      updated_at: new Date().toISOString(),
+      hot_boards: [
+        { platform: 'douyin', title: '柯基屁屁舞挑战', hot: 2200, url: '' },
+        { platform: 'douyin', title: '平价护肤好物推荐', hot: 1620, url: '' },
+        { platform: 'weibo', title: '夏季清透底妆教程', hot: 1340, url: '' },
+        { platform: 'bilibili', title: '微胖女生穿搭显瘦指南', hot: 1180, url: '' },
+        { platform: 'douyin', title: '柯基犬新手饲养指南', hot: 1080, url: '' },
+        { platform: 'weibo', title: '早八通勤妆容5分钟搞定', hot: 920, url: '' },
+        { platform: 'bilibili', title: '敏感肌精简护肤思路', hot: 810, url: '' },
+        { platform: 'douyin', title: '狗狗美容DIY在家搞定', hot: 760, url: '' }
+      ],
+      ideas: [
+        { title: '养柯基前必须知道的5件事', tags: ['柯基', '新手', '避坑'], description: '柯基掉毛、腰椎、运动量…新手养柯基前一定要了解的真相，看完再决定。', keyword: '养柯基注意事项' },
+        { title: '50元搞定夏季清爽通勤妆', tags: ['化妆', '平价', '通勤'], description: '用开架好物打造5分钟出门妆，产品全部50元以内，打工人必看。', keyword: '平价通勤妆' },
+        { title: '微胖女生夏天怎么穿显瘦', tags: ['穿搭', '显瘦', '微胖'], description: '3套微胖女孩夏季穿搭公式，扬长避短，显瘦10斤不是梦。', keyword: '微胖女生穿搭显瘦' },
+        { title: '敏感肌换季护肤急救指南', tags: ['护肤', '敏感肌', '换季'], description: '换季泛红起皮怎么办？分享敏感肌精简护肤三步法，亲测有效。', keyword: '敏感肌换季护肤' },
+        { title: '和柯基一起拍的穿搭大片', tags: ['柯基', '穿搭', '拍照'], description: '柯基+穿搭双流量密码！教你和小短腿拍出刷屏级穿搭照。', keyword: '柯基穿搭拍照' },
+        { title: '平价替代大牌口红测评', tags: ['化妆', '平价', '口红'], description: '5支开架口红vs大牌口红盲测，色号几乎一模一样但便宜10倍。', keyword: '平价口红替代' },
+        { title: '柯基一天吃多少才健康', tags: ['柯基', '饮食', '健康'], description: '柯基易胖品种，科学喂食量+零食推荐，养出健康小短腿。', keyword: '柯基饮食喂养' },
+        { title: '早八人5分钟伪素颜妆', tags: ['化妆', '通勤', '伪素颜'], description: '打工人必备的5分钟伪素颜妆，自然到同事以为你没化妆。', keyword: '5分钟伪素颜妆' },
+        { title: '夏天出油脱妆怎么补妆', tags: ['化妆', '持妆', '夏季'], description: '大油皮夏天出门2小时就脱妆？补妆技巧让你持妆一整天。', keyword: '夏天补妆技巧' },
+        { title: '梨形身材穿搭显瘦公式', tags: ['穿搭', '梨形身材', '显瘦'], description: '上半身瘦下半身胖？3个穿搭公式帮你平衡比例，穿出好身材。', keyword: '梨形身材穿搭' }
+      ],
+      recreate: [
+        { hot_title: '柯基屁屁舞挑战', angle: '萌系翻跳版：和柯基一起跳屁屁舞，我家狗全程不配合的搞笑实录', platform: 'douyin' },
+        { hot_title: '平价护肤好物推荐', angle: '避雷版：这些平价护肤品千万别买，烂脸警告', platform: 'bilibili' },
+        { hot_title: '夏季清透底妆教程', angle: '大油皮实测版：32度高温户外实测，到底持妆多久', platform: 'douyin' },
+        { hot_title: '微胖女生穿搭显瘦指南', angle: '真实体重版：130斤微胖女孩试穿热门爆款，效果翻车了吗', platform: 'douyin' },
+        { hot_title: '柯基犬新手饲养指南', angle: '花钱教训版：养柯基第一年我白花了3000块，这些根本不用买', platform: 'douyin' },
+        { hot_title: '早八通勤妆容5分钟搞定', angle: '手残党版：完全不会化妆的人5分钟能画出什么妆', platform: 'bilibili' },
+        { hot_title: '敏感肌精简护肤思路', angle: '皮肤科医生版：敏感肌到底该用什么，医生一次性说清', platform: 'bilibili' },
+        { hot_title: '狗狗美容DIY在家搞定', angle: '柯基专版：在家给柯基修毛洗浴全流程，小短腿变身记', platform: 'douyin' },
+        { hot_title: '平价护肤好物推荐', angle: '铲屎官专属版：养狗人的护肤痛点，狗狗抓伤后怎么护理皮肤', platform: 'douyin' },
+        { hot_title: '微胖女生穿搭显瘦指南', angle: '四季全攻略版：微胖女生春夏秋冬怎么穿，一篇全搞定', platform: 'bilibili' }
+      ]
+    };
+
+    // ==================== 工具函数 ====================
+    function loadData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return JSON.parse(JSON.stringify(defaultData));
+        const parsed = JSON.parse(saved);
+        // 合并默认值
+        return mergeDeep(JSON.parse(JSON.stringify(defaultData)), parsed);
+      } catch (e) {
+        return JSON.parse(JSON.stringify(defaultData));
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    }
+
+    function mergeDeep(defaults, source) {
+      const output = JSON.parse(JSON.stringify(defaults));
+      for (const key in source) {
+        if (source[key] !== null && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+          output[key] = mergeDeep(output[key] || {}, source[key]);
+        } else if (source[key] !== undefined) {
+          output[key] = source[key];
+        }
+      }
+      return output;
+    }
+
+    function generateId() {
+      return Date.now() + Math.random().toString(36).substr(2, 5);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('loadingToast');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2000);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ==================== 状态管理 ====================
+    let appData = loadData();
+    let currentPage = 'daily';
+
+    // 检查是否需要重置每日任务
+    function checkDailyReset() {
+      const today = new Date().toISOString().split('T')[0];
+      if (appData.daily.date !== today) {
+        appData.daily.date = today;
+        appData.daily.tasks = JSON.parse(JSON.stringify(defaultData.daily.tasks));
+        saveData();
+      }
+    }
+
+    // ==================== UI渲染 ====================
+    function renderDaily() {
+      const today = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' });
+      document.getElementById('currentDate').textContent = today;
+
+      const total = appData.daily.tasks.length;
+      const done = appData.daily.tasks.filter(t => t.done).length;
+      const pct = total ? Math.round(done / total * 100) : 0;
+      document.getElementById('dailyProgressText').textContent = pct + '%';
+      document.getElementById('dailyProgressBar').style.width = pct + '%';
+
+      const container = document.getElementById('dailyTasks');
+      container.innerHTML = '';
+      appData.daily.tasks.forEach(task => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center bg-olive-50 rounded-xl px-3 py-3';
+        div.innerHTML = `
+          <label class="flex items-center flex-1 cursor-pointer">
+            <input type="checkbox" class="checkbox w-5 h-5 rounded border-olive-300 text-olive-600 focus:ring-olive-500" ${task.done ? 'checked' : ''} data-id="${task.id}">
+            <div class="ml-3 text-sm text-gray-700">${escapeHtml(task.text)}</div>
+          </label>
+          <button class="delete-task text-gray-400 px-2" data-id="${task.id}">×</button>
+        `;
+        container.appendChild(div);
+      });
+
+      // 绑定事件
+      container.querySelectorAll('.checkbox').forEach(cb => {
+        cb.addEventListener('change', e => {
+          const task = appData.daily.tasks.find(t => t.id == e.target.dataset.id);
+          if (task) { task.done = e.target.checked; saveData(); renderDaily(); }
+        });
+      });
+      container.querySelectorAll('.delete-task').forEach(btn => {
+        btn.addEventListener('click', e => {
+          appData.daily.tasks = appData.daily.tasks.filter(t => t.id != e.target.dataset.id);
+          saveData(); renderDaily();
+        });
+      });
+
+      // 同步复盘数据到每日概览
+      document.getElementById('dailyViews').textContent = appData.review.views || '0';
+      document.getElementById('dailyLikes').textContent = appData.review.likes || '0';
+      document.getElementById('dailyComments').textContent = appData.review.comments || '0';
+      document.getElementById('dailyShares').textContent = appData.review.shares || '0';
+    }
+
+    function renderIdeas() {
+      const data = appData.gist.ideas.length ? appData.gist : mockCloudData;
+      const updateTime = appData.gist.updated_at
+        ? new Date(appData.gist.updated_at).toLocaleString('zh-CN')
+        : '示例数据（未配置Gist）';
+      document.getElementById('ideasUpdateTime').textContent = '更新时间：' + updateTime;
+
+      const container = document.getElementById('ideasList');
+      container.innerHTML = '';
+      data.ideas.forEach((idea, idx) => {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-2xl p-4 card-shadow';
+        const tags = (idea.tags || []).map(t => `<span class="inline-block bg-olive-100 text-olive-700 text-xs px-2 py-0.5 rounded-full mr-1">${escapeHtml(t)}</span>`).join('');
+        const keyword = encodeURIComponent(idea.keyword || idea.title);
+        div.innerHTML = `
+          <div class="flex justify-between items-start mb-2">
+            <span class="bg-olive-600 text-white text-xs px-2 py-0.5 rounded-full">#${idx + 1}</span>
+            <div class="flex space-x-2">
+              <button class="open-douyin text-xs bg-gray-900 text-white px-2 py-1 rounded-lg active:opacity-80" data-kw="${keyword}">抖音</button>
+              <button class="open-bilibili text-xs bg-blue-500 text-white px-2 py-1 rounded-lg active:opacity-80" data-kw="${keyword}">B站</button>
+            </div>
+          </div>
+          <h3 class="font-bold text-gray-800 mb-2">${escapeHtml(idea.title)}</h3>
+          <div class="mb-2">${tags}</div>
+          <p class="text-sm text-gray-600 line-clamp-2">${escapeHtml(idea.description || '')}</p>
+          <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
+            <span class="text-xs text-gray-400">搜索关键词：${escapeHtml(idea.keyword || idea.title)}</span>
+            <button class="copy-keyword text-xs text-olive-600 border border-olive-300 px-2 py-1 rounded-lg active:bg-olive-50" data-kw="${escapeHtml(idea.keyword || idea.title)}">复制</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      bindOpenButtons(container);
+    }
+
+    function renderRecreate() {
+      const data = appData.gist.recreate.length ? appData.gist : mockCloudData;
+      const updateTime = appData.gist.updated_at
+        ? new Date(appData.gist.updated_at).toLocaleString('zh-CN')
+        : '示例数据（未配置Gist）';
+      document.getElementById('recreateUpdateTime').textContent = '更新时间：' + updateTime;
+
+      const container = document.getElementById('recreateList');
+      container.innerHTML = '';
+      data.recreate.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-2xl p-4 card-shadow';
+        const platformColor = item.platform === 'bilibili' ? 'bg-blue-100 text-blue-700' : 'bg-gray-900 text-white';
+        const keyword = encodeURIComponent(item.hot_title);
+        div.innerHTML = `
+          <div class="flex items-center mb-2">
+            <span class="bg-olive-600 text-white text-xs px-2 py-0.5 rounded-full mr-2">#${idx + 1}</span>
+            <span class="text-xs ${platformColor} px-2 py-0.5 rounded-full">${item.platform === 'bilibili' ? 'B站' : '抖音'}</span>
+          </div>
+          <div class="bg-olive-50 rounded-xl p-3 mb-3">
+            <p class="text-xs text-gray-500 mb-1">原热点</p>
+            <p class="font-medium text-gray-800">${escapeHtml(item.hot_title)}</p>
+          </div>
+          <div class="mb-3">
+            <p class="text-xs text-gray-500 mb-1">二创角度</p>
+            <p class="text-sm text-gray-700">${escapeHtml(item.angle)}</p>
+          </div>
+          <div class="flex space-x-2">
+            <button class="open-douyin flex-1 text-xs bg-gray-900 text-white py-2 rounded-lg active:opacity-80" data-kw="${keyword}">🔍 抖音搜热点</button>
+            <button class="open-bilibili flex-1 text-xs bg-blue-500 text-white py-2 rounded-lg active:opacity-80" data-kw="${keyword}">🔍 B站搜热点</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      bindOpenButtons(container);
+    }
+
+    function bindOpenButtons(container) {
+      container.querySelectorAll('.open-douyin').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const kw = decodeURIComponent(e.target.dataset.kw);
+          const url = `https://www.douyin.com/search/${encodeURIComponent(kw)}`;
+          const scheme = `snssdk1128://search?keyword=${encodeURIComponent(kw)}`;
+          tryOpenApp(scheme, url);
+        });
+      });
+      container.querySelectorAll('.open-bilibili').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const kw = decodeURIComponent(e.target.dataset.kw);
+          const url = `https://search.bilibili.com/all?keyword=${encodeURIComponent(kw)}`;
+          const scheme = `bilibili://search?keyword=${encodeURIComponent(kw)}`;
+          tryOpenApp(scheme, url);
+        });
+      });
+      container.querySelectorAll('.copy-keyword').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const kw = e.target.dataset.kw;
+          copyText(kw);
+        });
+      });
+    }
+
+    function tryOpenApp(scheme, fallbackUrl) {
+      // 微信内置浏览器会拦截，先尝试scheme再fallback
+      const now = Date.now();
+      window.location.href = scheme;
+      setTimeout(() => {
+        if (Date.now() - now < 1500) {
+          window.open(fallbackUrl, '_blank');
+        }
+      }, 800);
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => showToast('已复制'));
+      } else {
+        const input = document.createElement('input');
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        showToast('已复制');
+      }
+    }
+
+    function renderReview() {
+      document.querySelectorAll('.review-input').forEach(input => {
+        input.value = appData.review[input.dataset.field] || '';
+      });
+      document.querySelectorAll('.review-text').forEach(textarea => {
+        textarea.value = appData.review[textarea.dataset.field] || '';
+      });
+      updateReviewRates();
+    }
+
+    function updateReviewRates() {
+      const views = parseInt(appData.review.views) || 0;
+      const likes = parseInt(appData.review.likes) || 0;
+      const comments = parseInt(appData.review.comments) || 0;
+      const likeRate = views ? Math.round(likes / views * 1000) / 10 : 0;
+      const commentRate = views ? Math.round(comments / views * 1000) / 1 : 0;
+      document.getElementById('likeRate').textContent = likeRate + '%';
+      document.getElementById('likeRateBar').style.width = Math.min(likeRate * 5, 100) + '%';
+      document.getElementById('commentRate').textContent = commentRate + '%';
+      document.getElementById('commentRateBar').style.width = Math.min(commentRate * 20, 100) + '%';
+    }
+
+    function renderMemo() {
+      const container = document.getElementById('memoList');
+      container.innerHTML = '';
+      appData.memo.items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center bg-olive-50 rounded-xl px-3 py-2.5';
+        div.innerHTML = `
+          <label class="flex items-center flex-1 cursor-pointer">
+            <input type="checkbox" class="checkbox w-5 h-5 rounded border-olive-300 text-olive-600" ${item.done ? 'checked' : ''} data-id="${item.id}">
+            <div class="ml-3 text-sm text-gray-700 flex-1">
+              <input type="text" class="memo-text bg-transparent outline-none w-full" value="${escapeHtml(item.text)}" data-id="${item.id}">
+            </div>
+          </label>
+          <button class="delete-memo text-gray-400 px-2" data-id="${item.id}">×</button>
+        `;
+        container.appendChild(div);
+      });
+
+      container.querySelectorAll('.checkbox').forEach(cb => {
+        cb.addEventListener('change', e => {
+          const item = appData.memo.items.find(i => i.id == e.target.dataset.id);
+          if (item) { item.done = e.target.checked; saveData(); }
+        });
+      });
+      container.querySelectorAll('.memo-text').forEach(input => {
+        input.addEventListener('blur', e => {
+          const item = appData.memo.items.find(i => i.id == e.target.dataset.id);
+          if (item) { item.text = e.target.value; saveData(); }
+        });
+      });
+      container.querySelectorAll('.delete-memo').forEach(btn => {
+        btn.addEventListener('click', e => {
+          appData.memo.items = appData.memo.items.filter(i => i.id != e.target.dataset.id);
+          saveData(); renderMemo();
+        });
+      });
+    }
+
+    function renderMath() {
+      const container = document.getElementById('mathList');
+      container.innerHTML = '';
+      appData.math.problems.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'bg-olive-50 rounded-xl p-4';
+        div.innerHTML = `
+          <h3 class="font-bold text-olive-800 mb-2">${escapeHtml(p.title)}</h3>
+          <p class="text-sm text-gray-700 mb-3">${escapeHtml(p.content)}</p>
+          <details class="text-sm">
+            <summary class="text-olive-600 font-medium cursor-pointer">查看答案</summary>
+            <p class="mt-2 text-gray-700"><b>答案：</b>${escapeHtml(p.answer)}</p>
+            <p class="text-gray-600 mt-1"><b>解析：</b>${escapeHtml(p.note)}</p>
+          </details>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderEssay() {
+      const container = document.getElementById('essayList');
+      container.innerHTML = '';
+      appData.essay.materials.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-2xl p-4 card-shadow';
+        const tags = (m.tags || []).map(t => `<span class="inline-block bg-olive-100 text-olive-700 text-xs px-2 py-0.5 rounded-full mr-1">${escapeHtml(t)}</span>`).join('');
+        div.innerHTML = `
+          <h3 class="font-bold text-gray-800 mb-2">${escapeHtml(m.title)}</h3>
+          <div class="mb-2">${tags}</div>
+          <p class="text-sm text-gray-600 mb-2">${escapeHtml(m.summary)}</p>
+          <p class="text-xs text-gray-400">来源：${escapeHtml(m.source)}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ==================== 页面切换 ====================
+    function switchPage(page) {
+      currentPage = page;
+      document.querySelectorAll('.page').forEach(p => p.classList.add('page-hidden'));
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('page-active'));
+      const target = document.getElementById('page-' + page);
+      if (target) { target.classList.remove('page-hidden'); target.classList.add('page-active'); }
+
+      const titles = {
+        daily: '每日计划', ideas: '选题灵感', recreate: '爆款二创',
+        review: '内容复盘', memo: '备忘录', math: '速算练习', essay: '申论积累',
+        settings: '设置'
+      };
+      document.getElementById('pageTitle').textContent = titles[page] || '创作工作台';
+
+      document.querySelectorAll('.nav-item').forEach(btn => {
+        if (btn.dataset.page === page) {
+          btn.classList.remove('text-gray-600', 'hover:bg-olive-50');
+          btn.classList.add('bg-olive-50', 'text-olive-800', 'font-medium');
+        } else {
+          btn.classList.add('text-gray-600', 'hover:bg-olive-50');
+          btn.classList.remove('bg-olive-50', 'text-olive-800', 'font-medium');
+        }
+      });
+
+      closeDrawer();
+      window.scrollTo(0, 0);
+    }
+
+    // ==================== 抽屉导航 ====================
+    function openDrawer() {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      drawer.classList.remove('drawer-closed');
+      drawer.classList.add('drawer-open');
+      overlay.classList.remove('hidden');
+      setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+    }
+
+    function closeDrawer() {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      drawer.classList.remove('drawer-open');
+      drawer.classList.add('drawer-closed');
+      overlay.classList.add('opacity-0');
+      setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+
+    // ==================== Gist 数据加载 ====================
+    async function loadGistData(force = false) {
+      // 如果用户未配置 Gist，直接使用内置示例数据
+      const gistConfig = getGistConfig();
+      if (!gistConfig.id || gistConfig.id === 'YOUR_GIST_ID') {
+        showToast('使用示例数据（未配置Gist）');
+        renderIdeas(); renderRecreate();
+        return;
+      }
+
+      // 如果有缓存且不强刷，先用本地
+      const cached = localStorage.getItem(GIST_DATA_KEY);
+      const cachedTime = localStorage.getItem(GIST_DATA_TIME_KEY);
+      if (!force && cached && cachedTime && Date.now() - parseInt(cachedTime) < GIST_CACHE_TIME) {
+        try {
+          appData.gist = JSON.parse(cached);
+          renderIdeas(); renderRecreate();
+          return;
+        } catch (e) {}
+      }
+
+      try {
+        showToast('同步云端数据中...');
+        const url = `https://gist.githubusercontent.com/${gistConfig.username}/${gistConfig.id}/raw/data.json?t=${Date.now()}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Gist读取失败: ' + res.status);
+        const data = await res.json();
+        appData.gist = data;
+        localStorage.setItem(GIST_DATA_KEY, JSON.stringify(data));
+        localStorage.setItem(GIST_DATA_TIME_KEY, Date.now().toString());
+        saveData();
+        renderIdeas(); renderRecreate();
+        showToast('云端数据已更新');
+      } catch (e) {
+        showToast('云端数据读取失败，使用示例数据');
+        renderIdeas(); renderRecreate();
+      }
+    }
+
+    function getGistConfig() {
+      // 从 localStorage 读取用户配置，首次使用默认示例配置
+      return {
+        username: localStorage.getItem('cw_gist_username') || 'YOUR_GITHUB_USERNAME',
+        id: localStorage.getItem('cw_gist_id') || 'YOUR_GIST_ID'
+      };
+    }
+
+    function setGistConfig(username, id) {
+      localStorage.setItem('cw_gist_username', username);
+      localStorage.setItem('cw_gist_id', id);
+    }
+
+    function renderSettings() {
+      const config = getGistConfig();
+      document.getElementById('gistUsernameInput').value = config.username === 'YOUR_GITHUB_USERNAME' ? '' : config.username;
+      document.getElementById('gistIdInput').value = config.id === 'YOUR_GIST_ID' ? '' : config.id;
+      const isConfigured = config.username && config.id && config.username !== 'YOUR_GITHUB_USERNAME' && config.id !== 'YOUR_GIST_ID';
+      document.getElementById('gistStatusText').textContent = isConfigured ? '已配置' : '未配置（使用示例数据）';
+      document.getElementById('gistUrlText').textContent = isConfigured
+        ? `https://gist.githubusercontent.com/${config.username}/${config.id}/raw/data.json`
+        : '未配置';
+    }
+
+    function exportData() {
+      const data = {
+        creator_workbench_v1: localStorage.getItem(STORAGE_KEY),
+        cw_gist_username: localStorage.getItem('cw_gist_username'),
+        cw_gist_id: localStorage.getItem('cw_gist_id')
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `creator-workbench-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('备份已导出');
+    }
+
+    function importData() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = event => {
+          try {
+            const data = JSON.parse(event.target.result);
+            if (data.creator_workbench_v1) localStorage.setItem(STORAGE_KEY, data.creator_workbench_v1);
+            if (data.cw_gist_username) localStorage.setItem('cw_gist_username', data.cw_gist_username);
+            if (data.cw_gist_id) localStorage.setItem('cw_gist_id', data.cw_gist_id);
+            location.reload();
+          } catch (err) {
+            showToast('导入失败：文件格式错误');
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+
+    // ==================== 事件绑定 ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      checkDailyReset();
+      renderDaily(); renderIdeas(); renderRecreate(); renderReview(); renderMemo(); renderMath(); renderEssay(); renderSettings();
+
+      // 菜单
+      document.getElementById('menuBtn').addEventListener('click', openDrawer);
+      document.getElementById('drawerOverlay').addEventListener('click', closeDrawer);
+      document.querySelectorAll('.nav-item').forEach(btn => {
+        btn.addEventListener('click', () => switchPage(btn.dataset.page));
+      });
+
+      // 每日任务添加
+      document.getElementById('addTaskBtn').addEventListener('click', () => {
+        const text = prompt('输入新任务：');
+        if (text && text.trim()) {
+          appData.daily.tasks.push({ id: generateId(), text: text.trim(), done: false });
+          saveData(); renderDaily();
+        }
+      });
+
+      // 复盘输入
+      document.querySelectorAll('.review-input').forEach(input => {
+        input.addEventListener('input', e => {
+          appData.review[e.target.dataset.field] = e.target.value;
+          saveData(); updateReviewRates();
+        });
+      });
+      document.querySelectorAll('.review-text').forEach(textarea => {
+        textarea.addEventListener('input', e => {
+          appData.review[e.target.dataset.field] = e.target.value;
+          saveData();
+        });
+      });
+
+      // 备忘录添加
+      document.getElementById('addMemoBtn').addEventListener('click', () => {
+        appData.memo.items.push({ id: generateId(), text: '新备忘事项', done: false });
+        saveData(); renderMemo();
+      });
+
+      // 刷新按钮
+      document.getElementById('refreshIdeasBtn').addEventListener('click', () => loadGistData(true));
+      document.getElementById('refreshRecreateBtn').addEventListener('click', () => loadGistData(true));
+      document.getElementById('refreshMathBtn').addEventListener('click', () => showToast('示例题库已刷新'));
+      document.getElementById('refreshEssayBtn').addEventListener('click', () => showToast('示例素材已刷新'));
+
+      // 设置页
+      document.getElementById('saveGistConfigBtn').addEventListener('click', () => {
+        const username = document.getElementById('gistUsernameInput').value.trim();
+        const id = document.getElementById('gistIdInput').value.trim();
+        if (!username || !id) {
+          showToast('请填写完整信息');
+          return;
+        }
+        setGistConfig(username, id);
+        renderSettings();
+        loadGistData(true);
+      });
+      document.getElementById('exportDataBtn').addEventListener('click', exportData);
+      document.getElementById('importDataBtn').addEventListener('click', importData);
+    });
+
+    // 缺少的常量
+    const GIST_DATA_TIME_KEY = 'cw_gist_data_time';
+  </script>
+</body>
+</html>
