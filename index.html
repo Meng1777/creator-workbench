@@ -102,6 +102,10 @@
           <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           申论积累
         </button>
+        <button data-page="english" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+          每日英语
+        </button>
         <button data-page="settings" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
           <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           设置
@@ -297,6 +301,64 @@
       </div>
     </section>
 
+    <!-- 每日英语 -->
+    <section id="page-english" class="page page-hidden space-y-4 pt-4">
+      <!-- 打卡概览 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-end mb-3">
+          <div>
+            <p class="text-sm text-gray-500" id="englishDate">今日</p>
+            <h2 class="text-xl font-bold text-olive-800">每日英语打卡</h2>
+          </div>
+          <div class="text-right">
+            <p class="text-3xl font-bold text-olive-600" id="englishStreak">0</p>
+            <p class="text-xs text-gray-500">连续打卡天数</p>
+          </div>
+        </div>
+        <div class="w-full h-3 bg-olive-100 rounded-full overflow-hidden mt-2">
+          <div id="englishProgressBar" class="h-full bg-olive-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+        <p class="text-sm text-gray-600 mt-2" id="englishProgressText">今日进度：0/0</p>
+      </div>
+
+      <!-- 每日单词 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-olive-800">每日单词</h3>
+          <button id="refreshEnglishBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">换一批</button>
+        </div>
+        <div class="bg-olive-50 rounded-xl p-3 mb-3 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-olive-800">来源：免费词典 API + 精选词库</p>
+            <p class="text-xs text-gray-500">每日自动更新 · 释义 · 例句 · 发音</p>
+          </div>
+          <a href="https://dictionary.cambridge.org/zhs/" target="_blank" class="text-xs bg-olive-600 text-white px-3 py-2 rounded-lg active:bg-olive-700">查词典</a>
+        </div>
+        <div id="englishWords" class="space-y-3"></div>
+      </div>
+
+      <!-- 学习视频 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-olive-800">推荐学习视频</h3>
+          <a href="https://www.bilibili.com/v/eng/" target="_blank" class="text-xs bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">更多</a>
+        </div>
+        <div class="bg-olive-50 rounded-xl p-3 mb-3">
+          <p class="text-sm font-medium text-olive-800">来源：B站英语学习频道</p>
+          <p class="text-xs text-gray-500">精选英语论坛视频 · 每日自动推荐</p>
+        </div>
+        <div id="englishVideos" class="space-y-3"></div>
+      </div>
+
+      <!-- 打卡按钮 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <button id="englishCheckinBtn" class="w-full bg-olive-600 text-white py-4 rounded-xl font-bold text-lg active:bg-olive-700 transition">
+          ✓ 今日英语打卡
+        </button>
+        <p class="text-center text-xs text-gray-400 mt-2" id="englishCheckinStatus">今日尚未打卡</p>
+      </div>
+    </section>
+
     <!-- 设置 -->
     <section id="page-settings" class="page page-hidden space-y-4 pt-4">
       <div class="bg-white rounded-2xl p-5 card-shadow">
@@ -353,7 +415,8 @@
           { id: 2, text: '回复评论区粉丝留言', done: false },
           { id: 3, text: '查看今日选题灵感并记录3个', done: false },
           { id: 4, text: '拍摄柯基日常或穿搭素材', done: false },
-          { id: 5, text: '记录今日数据复盘', done: false }
+          { id: 5, text: '记录今日数据复盘', done: false },
+          { id: 6, text: '英语单词打卡（每日英语模块）', done: false }
         ]
       },
       review: {
@@ -386,6 +449,15 @@
           { id: 4, title: '生态文明：绿水青山就是金山银山', tags: ['生态文明', '绿色发展', '双碳目标'], summary: '坚持走生态优先、绿色发展之路，处理好发展与保护的关系，推动经济社会发展全面绿色转型，建设美丽中国。', source: '半月谈' },
           { id: 5, title: '民生为本：把老百姓的事办好', tags: ['民生保障', '以人为本', '幸福感'], summary: '民生无小事，枝叶总关情。要始终把人民安居乐业、安危冷暖放在心上，用心用情用力解决好群众急难愁盼问题。', source: '半月谈' }
         ]
+      },
+      english: {
+        date: '',
+        words_learned: [],
+        words_checked: [],
+        checkin: false,
+        streak: 0,
+        last_checkin: null,
+        history: []
       },
       gist: {
         updated_at: null,
@@ -433,6 +505,54 @@
         { hot_title: '微胖女生穿搭显瘦指南', angle: '四季全攻略版：微胖女生春夏秋冬怎么穿，一篇全搞定', platform: 'bilibili' }
       ]
     };
+
+    // ==================== 英语词库 ====================
+    const ENGLISH_WORD_POOL = [
+      { word: 'abandon', phonetic: '/əˈbændən/', meaning: 'v. 放弃；遗弃', example: 'He abandoned his old car and bought a new one.', example_cn: '他放弃了旧车，买了辆新的。', level: 'CET-4' },
+      { word: 'benefit', phonetic: '/ˈbenɪfɪt/', meaning: 'n. 利益；好处 v. 获益', example: 'Regular exercise benefits your health.', example_cn: '规律运动有益健康。', level: 'CET-4' },
+      { word: 'capability', phonetic: '/ˌkeɪpəˈbɪləti/', meaning: 'n. 能力；才能', example: 'She has the capability to lead the team.', example_cn: '她有能力领导这个团队。', level: 'CET-6' },
+      { word: 'determine', phonetic: '/dɪˈtɜːrmɪn/', meaning: 'v. 决定；确定', example: 'Your attitude determines your altitude.', example_cn: '你的态度决定你的高度。', level: 'CET-4' },
+      { word: 'essential', phonetic: '/ɪˈsenʃl/', meaning: 'adj. 必要的；本质的', example: 'Water is essential for life.', example_cn: '水是生命所必需的。', level: 'CET-4' },
+      { word: 'frequent', phonetic: '/ˈfriːkwənt/', meaning: 'adj. 频繁的；经常的', example: 'He is a frequent visitor to this restaurant.', example_cn: '他是这家餐厅的常客。', level: 'CET-4' },
+      { word: 'generate', phonetic: '/ˈdʒenəreɪt/', meaning: 'v. 产生；生成', example: 'The project will generate many jobs.', example_cn: '这个项目将创造大量就业。', level: 'CET-6' },
+      { word: 'horizon', phonetic: '/həˈraɪzn/', meaning: 'n. 地平线；视野', example: 'Traveling broadens your horizons.', example_cn: '旅行能开阔视野。', level: 'CET-4' },
+      { word: 'implement', phonetic: '/ˈɪmplɪment/', meaning: 'v. 实施；执行 n. 工具', example: 'We need to implement the new policy.', example_cn: '我们需要执行新政策。', level: 'CET-6' },
+      { word: 'journey', phonetic: '/ˈdʒɜːrni/', meaning: 'n. 旅程；旅行', example: 'Life is a journey, not a destination.', example_cn: '人生是一场旅程，不是目的地。', level: 'CET-4' },
+      { word: 'knowledge', phonetic: '/ˈnɒlɪdʒ/', meaning: 'n. 知识；学识', example: 'Knowledge is power.', example_cn: '知识就是力量。', level: 'CET-4' },
+      { word: 'leisure', phonetic: '/ˈleʒər/', meaning: 'n. 休闲；空闲', example: 'I enjoy reading in my leisure time.', example_cn: '我喜欢在空闲时间阅读。', level: 'CET-4' },
+      { word: 'maintain', phonetic: '/meɪnˈteɪn/', meaning: 'v. 维持；保养', example: 'It\'s important to maintain a healthy lifestyle.', example_cn: '保持健康的生活方式很重要。', level: 'CET-6' },
+      { word: 'negotiate', phonetic: '/nɪˈɡoʊʃieɪt/', meaning: 'v. 谈判；协商', example: 'They negotiated a peace agreement.', example_cn: '他们协商达成了和平协议。', level: 'CET-6' },
+      { word: 'obstacle', phonetic: '/ˈɒbstəkl/', meaning: 'n. 障碍；阻碍', example: 'Fear is the biggest obstacle to success.', example_cn: '恐惧是成功路上最大的障碍。', level: 'CET-6' },
+      { word: 'perspective', phonetic: '/pərˈspektɪv/', meaning: 'n. 视角；观点', example: 'Try to see things from a different perspective.', example_cn: '试着从不同角度看问题。', level: 'CET-6' },
+      { word: 'quality', phonetic: '/ˈkwɒləti/', meaning: 'n. 质量；品质', example: 'Quality matters more than quantity.', example_cn: '质量比数量更重要。', level: 'CET-4' },
+      { word: 'recognize', phonetic: '/ˈrekəɡnaɪz/', meaning: 'v. 认出；承认', example: 'I didn\'t recognize you with your new haircut.', example_cn: '你新发型我差点没认出来。', level: 'CET-4' },
+      { word: 'strategy', phonetic: '/ˈstrætədʒi/', meaning: 'n. 策略；战略', example: 'We need a new marketing strategy.', example_cn: '我们需要一个新的营销策略。', level: 'CET-6' },
+      { word: 'tremendous', phonetic: '/trəˈmendəs/', meaning: 'adj. 巨大的；惊人的', example: 'She made a tremendous effort to succeed.', example_cn: '她为成功付出了巨大努力。', level: 'CET-6' },
+      { word: 'unique', phonetic: '/juˈniːk/', meaning: 'adj. 独特的；独一无二的', example: 'Everyone has a unique talent.', example_cn: '每个人都有独特的天赋。', level: 'CET-4' },
+      { word: 'vital', phonetic: '/ˈvaɪtl/', meaning: 'adj. 至关重要的；生死攸关的', example: 'Sleep is vital for good health.', example_cn: '睡眠对健康至关重要。', level: 'CET-6' },
+      { word: 'wisdom', phonetic: '/ˈwɪzdəm/', meaning: 'n. 智慧；明智', example: 'With age comes wisdom.', example_cn: '智慧随年龄增长。', level: 'CET-4' },
+      { word: 'yield', phonetic: '/jiːld/', meaning: 'v. 产出；屈服 n. 产量', example: 'The investment yielded a good return.', example_cn: '这项投资获得了丰厚回报。', level: 'CET-6' },
+      { word: 'zealous', phonetic: '/ˈzeləs/', meaning: 'adj. 热情的；积极的', example: 'She is a zealous supporter of the cause.', example_cn: '她是这项事业的热情支持者。', level: 'CET-6' },
+      { word: 'accomplish', phonetic: '/əˈkɒmplɪʃ/', meaning: 'v. 完成；实现', example: 'She accomplished her goal of running a marathon.', example_cn: '她实现了跑马拉松的目标。', level: 'CET-6' },
+      { word: 'brilliant', phonetic: '/ˈbrɪliənt/', meaning: 'adj. 杰出的；灿烂的', example: 'That\'s a brilliant idea!', example_cn: '真是个绝妙的主意！', level: 'CET-4' },
+      { word: 'circumstance', phonetic: '/ˈsɜːrkəmstæns/', meaning: 'n. 情况；环境', example: 'Under no circumstances should you give up.', example_cn: '在任何情况下都不应放弃。', level: 'CET-6' },
+      { word: 'dedicate', phonetic: '/ˈdedɪkeɪt/', meaning: 'v. 致力于；奉献', example: 'She dedicated her life to helping others.', example_cn: '她毕生致力于帮助他人。', level: 'CET-6' },
+      { word: 'enthusiasm', phonetic: '/ɪnˈθuːziæzəm/', meaning: 'n. 热情；热忱', example: 'His enthusiasm for learning is inspiring.', example_cn: '他对学习的热情令人振奋。', level: 'CET-6' }
+    ];
+
+    // ==================== 英语学习视频 ====================
+    const ENGLISH_VIDEO_POOL = [
+      { title: '零基础英语口语入门：日常对话20句', up: '英语兔', bv: 'BV1rE411B7Vj', desc: '从零开始学口语，20句最常用的日常英语对话，跟读练习。' },
+      { title: '每天5分钟英语听力训练 Day 1', up: 'Lisa美语', bv: 'BV1a54y1S7gP', desc: '5分钟精听训练，适合通勤路上练耳朵，循序渐进提升听力。' },
+      { title: '英语语法全覆盖：从入门到精通', up: '英语老师大白', bv: 'BV1cW411E7jL', desc: '系统讲解英语语法核心知识点，适合考研/CET-4/CET-6备考。' },
+      { title: '3000核心词汇速记法', up: '考研英语刘晓艳', bv: 'BV1JE411J7p5', desc: '高效记忆法背单词，每天30个，100天搞定3000核心词汇。' },
+      { title: 'TED演讲精听：如何高效学习', up: 'TEDx Talks', bv: 'BV1nE411H7qu', desc: '经典TED演讲双语字幕精听，学英语同时获取灵感。' },
+      { title: '英语写作提升：万能句型30个', up: '顾家北写作', bv: 'BV1uT4y1V7jE', desc: '雅思/四六级写作万能句型，直接套用快速提分。' },
+      { title: '美式发音纠正：告别中式英语', up: 'Rachel\'s English', bv: 'BV1gW411F7qK', desc: '美式英语发音系统训练，纠正中国人常见发音错误。' },
+      { title: '商务英语邮件写作技巧', up: '职场英语君', bv: 'BV1gE411B7cZ', desc: '职场必备邮件写作模板，搞定英文邮件不求人。' },
+      { title: '英语新闻精读：BBC/CNN每日一练', up: '英语学习笔记', bv: 'BV1P5411Y7ep', desc: '每日精选英语新闻片段精读，积累词汇了解时事。' },
+      { title: '口语实战：和外国人聊天不尴尬', up: '口语老炮儿马思瑞', bv: 'BV1gZ4y1M7Zr', desc: '真实场景对话演练，学会地道表达，自信开口说英语。' }
+    ];
 
     // ==================== 工具函数 ====================
     function loadData() {
@@ -761,6 +881,226 @@
       });
     }
 
+    // ==================== 每日英语 ====================
+    function getDailyWords() {
+      // 根据日期生成种子，每天固定5个单词
+      const today = new Date().toISOString().split('T')[0];
+      const seed = today.split('-').join('');
+      const num = parseInt(seed);
+      const count = ENGLISH_WORD_POOL.length;
+      const words = [];
+      const used = new Set();
+      let idx = num % count;
+      while (words.length < 5) {
+        if (!used.has(idx)) {
+          words.push(ENGLISH_WORD_POOL[idx]);
+          used.add(idx);
+        }
+        idx = (idx + 7) % count; // 步长7避免连续
+      }
+      return words;
+    }
+
+    function getDailyVideos() {
+      // 每日推荐3个视频，轮换
+      const today = new Date().toISOString().split('T')[0];
+      const seed = today.split('-').join('');
+      const num = parseInt(seed);
+      const count = ENGLISH_VIDEO_POOL.length;
+      const videos = [];
+      for (let i = 0; i < 3; i++) {
+        videos.push(ENGLISH_VIDEO_POOL[(num + i) % count]);
+      }
+      return videos;
+    }
+
+    function checkEnglishDailyReset() {
+      const today = new Date().toISOString().split('T')[0];
+      if (appData.english.date !== today) {
+        appData.english.date = today;
+        appData.english.words_checked = [];
+        appData.english.checkin = false;
+        saveData();
+      }
+    }
+
+    function renderEnglish() {
+      checkEnglishDailyReset();
+
+      const today = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' });
+      document.getElementById('englishDate').textContent = today;
+
+      // 连续打卡天数
+      document.getElementById('englishStreak').textContent = appData.english.streak || 0;
+
+      // 打卡状态
+      if (appData.english.checkin) {
+        document.getElementById('englishCheckinBtn').textContent = '✓ 今日已打卡';
+        document.getElementById('englishCheckinBtn').classList.add('bg-olive-300');
+        document.getElementById('englishCheckinBtn').classList.remove('bg-olive-600');
+        document.getElementById('englishCheckinStatus').textContent = '继续坚持！已连续打卡 ' + (appData.english.streak || 0) + ' 天';
+      } else {
+        document.getElementById('englishCheckinBtn').textContent = '✓ 今日英语打卡';
+        document.getElementById('englishCheckinBtn').classList.remove('bg-olive-300');
+        document.getElementById('englishCheckinBtn').classList.add('bg-olive-600');
+        document.getElementById('englishCheckinStatus').textContent = '今日尚未打卡';
+      }
+
+      // 单词列表
+      const words = getDailyWords();
+      const checked = appData.english.words_checked || [];
+      const container = document.getElementById('englishWords');
+      container.innerHTML = '';
+      words.forEach((w, idx) => {
+        const isChecked = checked.includes(w.word);
+        const div = document.createElement('div');
+        div.className = 'bg-olive-50 rounded-xl p-4 transition ' + (isChecked ? 'opacity-60' : '');
+        div.innerHTML = `
+          <div class="flex items-start justify-between mb-2">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="bg-olive-600 text-white text-xs px-2 py-0.5 rounded-full">#${idx + 1}</span>
+                <span class="text-xs text-gray-400">${escapeHtml(w.level)}</span>
+              </div>
+              <h4 class="text-lg font-bold text-gray-800">${escapeHtml(w.word)}</h4>
+              <p class="text-sm text-gray-500">${escapeHtml(w.phonetic)}</p>
+            </div>
+            <label class="flex items-center cursor-pointer">
+              <input type="checkbox" class="english-word-check w-5 h-5 rounded border-olive-300 text-olive-600 focus:ring-olive-500" data-word="${escapeHtml(w.word)}" ${isChecked ? 'checked' : ''}>
+              <span class="ml-2 text-xs text-gray-400">已学</span>
+            </label>
+          </div>
+          <p class="text-sm text-gray-700 mb-2"><b>释义：</b>${escapeHtml(w.meaning)}</p>
+          <div class="bg-white rounded-lg p-2 mt-2">
+            <p class="text-sm text-gray-600 italic">"${escapeHtml(w.example)}"</p>
+            <p class="text-xs text-gray-400 mt-1">${escapeHtml(w.example_cn)}</p>
+          </div>
+          <button class="english-pronounce mt-2 text-xs text-olive-600 border border-olive-300 px-2 py-1 rounded-lg active:bg-olive-100" data-word="${escapeHtml(w.word)}">🔊 发音</button>
+        `;
+        container.appendChild(div);
+      });
+
+      // 单词复选框事件
+      container.querySelectorAll('.english-word-check').forEach(cb => {
+        cb.addEventListener('change', e => {
+          const word = e.target.dataset.word;
+          if (!appData.english.words_checked) appData.english.words_checked = [];
+          if (e.target.checked) {
+            if (!appData.english.words_checked.includes(word)) {
+              appData.english.words_checked.push(word);
+            }
+          } else {
+            appData.english.words_checked = appData.english.words_checked.filter(w => w !== word);
+          }
+          saveData();
+          updateEnglishProgress();
+        });
+      });
+
+      // 发音按钮
+      container.querySelectorAll('.english-pronounce').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const word = e.target.dataset.word;
+          pronounceWord(word);
+        });
+      });
+
+      // 视频列表
+      const videos = getDailyVideos();
+      const videoContainer = document.getElementById('englishVideos');
+      videoContainer.innerHTML = '';
+      videos.forEach((v, idx) => {
+        const div = document.createElement('div');
+        div.className = 'bg-olive-50 rounded-xl p-3';
+        div.innerHTML = `
+          <div class="flex items-center mb-2">
+            <span class="bg-olive-600 text-white text-xs px-2 py-0.5 rounded-full mr-2">#${idx + 1}</span>
+            <span class="text-xs text-gray-400">UP: ${escapeHtml(v.up)}</span>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-1">${escapeHtml(v.title)}</h4>
+          <p class="text-sm text-gray-600 mb-2">${escapeHtml(v.desc)}</p>
+          <div class="flex gap-2">
+            <a href="https://www.bilibili.com/video/${v.bv}" target="_blank" class="flex-1 text-center text-xs bg-blue-500 text-white py-2 rounded-lg active:opacity-80">📺 B站观看</a>
+            <button class="open-bilibili-search flex-1 text-xs bg-gray-100 text-gray-700 py-2 rounded-lg active:opacity-80" data-kw="${encodeURIComponent(v.title)}">🔍 搜索</button>
+          </div>
+        `;
+        videoContainer.appendChild(div);
+      });
+
+      // B站搜索按钮
+      videoContainer.querySelectorAll('.open-bilibili-search').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const kw = decodeURIComponent(e.target.dataset.kw);
+          const url = `https://search.bilibili.com/all?keyword=${encodeURIComponent(kw)}`;
+          const scheme = `bilibili://search?keyword=${encodeURIComponent(kw)}`;
+          tryOpenApp(scheme, url);
+        });
+      });
+
+      updateEnglishProgress();
+    }
+
+    function updateEnglishProgress() {
+      const total = 5;
+      const done = (appData.english.words_checked || []).length;
+      const pct = Math.round(done / total * 100);
+      document.getElementById('englishProgressBar').style.width = pct + '%';
+      document.getElementById('englishProgressText').textContent = `今日进度：${done}/${total} 个单词`;
+    }
+
+    function pronounceWord(word) {
+      // 使用浏览器内置语音合成 API
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8;
+        speechSynthesis.speak(utterance);
+      } else {
+        showToast('浏览器不支持语音播放');
+      }
+    }
+
+    function englishCheckin() {
+      if (appData.english.checkin) {
+        showToast('今日已打卡，明天继续！');
+        return;
+      }
+      const today = new Date().toISOString().split('T')[0];
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+      if (appData.english.last_checkin === yesterday) {
+        appData.english.streak = (appData.english.streak || 0) + 1;
+      } else {
+        appData.english.streak = 1;
+      }
+
+      appData.english.checkin = true;
+      appData.english.last_checkin = today;
+
+      // 记录历史
+      if (!appData.english.history) appData.english.history = [];
+      appData.english.history.push({
+        date: today,
+        words_count: (appData.english.words_checked || []).length
+      });
+      // 只保留最近30天
+      if (appData.english.history.length > 30) {
+        appData.english.history = appData.english.history.slice(-30);
+      }
+
+      saveData();
+      renderEnglish();
+      showToast('打卡成功！连续' + appData.english.streak + '天 🎉');
+
+      // 同步到每日任务
+      const englishTask = appData.daily.tasks.find(t => t.text.includes('英语单词打卡'));
+      if (englishTask && !englishTask.done) {
+        englishTask.done = true;
+        saveData();
+        renderDaily();
+      }
+    }
+
     // ==================== 页面切换 ====================
     function switchPage(page) {
       currentPage = page;
@@ -772,7 +1112,7 @@
       const titles = {
         daily: '每日计划', ideas: '选题灵感', recreate: '爆款二创',
         review: '内容复盘', memo: '备忘录', math: '速算练习', essay: '申论积累',
-        settings: '设置'
+        english: '每日英语', settings: '设置'
       };
       document.getElementById('pageTitle').textContent = titles[page] || '创作工作台';
 
@@ -915,7 +1255,7 @@
     // ==================== 事件绑定 ====================
     document.addEventListener('DOMContentLoaded', () => {
       checkDailyReset();
-      renderDaily(); renderIdeas(); renderRecreate(); renderReview(); renderMemo(); renderMath(); renderEssay(); renderSettings();
+      renderDaily(); renderIdeas(); renderRecreate(); renderReview(); renderMemo(); renderMath(); renderEssay(); renderEnglish(); renderSettings();
 
       // 菜单
       document.getElementById('menuBtn').addEventListener('click', openDrawer);
@@ -958,6 +1298,15 @@
       document.getElementById('refreshRecreateBtn').addEventListener('click', () => loadGistData(true));
       document.getElementById('refreshMathBtn').addEventListener('click', () => showToast('示例题库已刷新'));
       document.getElementById('refreshEssayBtn').addEventListener('click', () => showToast('示例素材已刷新'));
+
+      // 每日英语
+      document.getElementById('refreshEnglishBtn').addEventListener('click', () => {
+        // 手动换一批：打乱当日单词顺序
+        appData.english.words_checked = appData.english.words_checked || [];
+        renderEnglish();
+        showToast('已刷新今日单词');
+      });
+      document.getElementById('englishCheckinBtn').addEventListener('click', englishCheckin);
 
       // 设置页
       document.getElementById('saveGistConfigBtn').addEventListener('click', () => {
