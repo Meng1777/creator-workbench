@@ -836,8 +836,8 @@
     function getGistConfig() {
       // 从 localStorage 读取用户配置，首次使用默认示例配置
       return {
-        username: localStorage.getItem('cw_gist_username') || 'YOUR_GITHUB_USERNAME',
-        id: localStorage.getItem('cw_gist_id') || 'YOUR_GIST_ID'
+        username: localStorage.getItem('cw_gist_username') || 'Meng1777',
+        id: localStorage.getItem('cw_gist_id') || 'ddf2dfadf50793b3f7eee7ddeec4727e'
       };
     }
 
@@ -850,7 +850,7 @@
       const config = getGistConfig();
       document.getElementById('gistUsernameInput').value = config.username === 'YOUR_GITHUB_USERNAME' ? '' : config.username;
       document.getElementById('gistIdInput').value = config.id === 'YOUR_GIST_ID' ? '' : config.id;
-      const isConfigured = config.username && config.id && config.username !== 'YOUR_GITHUB_USERNAME' && config.id !== 'YOUR_GIST_ID';
+      const isConfigured = config.username && config.id && config.username !== 'Meng1777' || config.id !== 'ddf2dfadf50793b3f7eee7ddeec4727e';
       document.getElementById('gistStatusText').textContent = isConfigured ? '已配置' : '未配置（使用示例数据）';
       document.getElementById('gistUrlText').textContent = isConfigured
         ? `https://gist.githubusercontent.com/${config.username}/${config.id}/raw/data.json`
