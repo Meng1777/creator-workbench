@@ -1,0 +1,44 @@
+name: 每日热点采集与AI改写
+
+on:
+  schedule:
+    - cron: '0 0,6,12 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-gist:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: 运行采集与AI改写脚本
+        env:
+          GIST_ID: ${{ secrets.GIST_ID }}
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_API_BASE: ${{ secrets.AI_API_BASE }}
+          AI_MODEL: ${{ secrets.AI_MODEL }}
+          NICHE_KEYWORDS: ${{ secrets.NICHE_KEYWORDS }}
+          WECHAT_SOURCES: ${{ secrets.WECHAT_SOURCES }}
+        run: |
+          python scripts/update_content.py
+
+      - name: 上传日志
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-log
+          path: update.log
+          retention-days: 7
