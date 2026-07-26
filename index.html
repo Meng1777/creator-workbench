@@ -988,10 +988,12 @@
       const reviewList = [];
 
       learned.forEach(record => {
-        // 跳过今天刚学的
+        // 跳过今天刚学的（今天学的明天才需要复习）
         if (record.learn_date === today) return;
         // 跳过今天已复习过的
         if (reviewDone.includes(record.word)) return;
+        // 跳过已掌握的
+        if (record.mastered) return;
 
         const daysSince = daysBetween(record.learn_date, today);
         const nextReviewDay = REVIEW_INTERVALS[record.review_count] || 999;
@@ -1004,6 +1006,9 @@
           });
         }
       });
+
+      // 按到期时间排序：最该复习的排前面
+      reviewList.sort((a, b) => b.days_since - a.days_since);
 
       return reviewList;
     }
@@ -1250,9 +1255,15 @@
         container.innerHTML = '';
         container.classList.add('hidden');
         emptyDiv.classList.remove('hidden');
-        emptyDiv.querySelector('p').textContent = '暂无需要复习的单词';
-        emptyDiv.querySelectorAll('p')[1].textContent = '学完今日新词后，系统会自动安排复习计划';
-        subtitle.textContent = '基于艾宾浩斯遗忘曲线';
+        const learned = appData.english.learned_words || [];
+        if (learned.length === 0) {
+          emptyDiv.querySelector('p').textContent = '还没有学过单词';
+          emptyDiv.querySelectorAll('p')[1].textContent = '先在下方"今日新词"勾选已学，明天这里会自动出现复习内容';
+        } else {
+          emptyDiv.querySelector('p').textContent = '今天暂无需要复习的单词';
+          emptyDiv.querySelectorAll('p')[1].textContent = '已学 ' + learned.length + ' 个单词，到了复习时间会自动出现在这里';
+        }
+        subtitle.textContent = '基于艾宾浩斯遗忘曲线 · 间隔[1,2,4,7,15]天';
       } else if (pending === 0 && doneCount > 0) {
         container.innerHTML = '';
         container.classList.add('hidden');
