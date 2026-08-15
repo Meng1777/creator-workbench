@@ -106,6 +106,10 @@
           <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
           每日英语
         </button>
+        <button data-page="knowledge" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          常识积累
+        </button>
         <button data-page="settings" class="nav-item w-full flex items-center px-4 py-3 rounded-xl text-left transition active:scale-[0.98] text-gray-600 hover:bg-olive-50">
           <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           设置
@@ -401,6 +405,59 @@
       </div>
     </section>
 
+    <!-- 常识积累 -->
+    <section id="page-knowledge" class="page page-hidden space-y-4 pt-4">
+      <!-- 概览 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-end mb-3">
+          <div>
+            <p class="text-sm text-gray-500" id="knowledgeDate">今日</p>
+            <h2 class="text-xl font-bold text-olive-800">常识积累</h2>
+          </div>
+          <div class="text-right">
+            <p class="text-3xl font-bold text-olive-600" id="knowledgeTotal">0</p>
+            <p class="text-xs text-gray-500">已练习题数</p>
+          </div>
+        </div>
+        <div class="w-full h-3 bg-olive-100 rounded-full overflow-hidden mt-2">
+          <div id="knowledgeProgressBar" class="h-full bg-olive-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+        <p class="text-sm text-gray-600 mt-2" id="knowledgeProgressText">今日进度：0/0</p>
+      </div>
+
+      <!-- 每日练习 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-olive-800">每日练习</h3>
+          <button id="refreshKnowledgeBtn" class="text-sm bg-olive-100 text-olive-700 px-3 py-1.5 rounded-full active:bg-olive-200 transition">换一批</button>
+        </div>
+        <div class="bg-olive-50 rounded-xl p-3 mb-3 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-olive-800">来源：考公常识题库</p>
+            <p class="text-xs text-gray-500">政治·法律·经济·历史·地理·科技</p>
+          </div>
+          <a href="https://www.qzzn.com/" target="_blank" class="text-xs bg-olive-600 text-white px-3 py-2 rounded-lg active:bg-olive-700">更多真题</a>
+        </div>
+        <div id="knowledgeList" class="space-y-3"></div>
+      </div>
+
+      <!-- 错题本 -->
+      <div class="bg-white rounded-2xl p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="font-bold text-olive-800">错题本</h3>
+            <p class="text-xs text-gray-500" id="wrongStats">共 0 题</p>
+          </div>
+          <button id="clearWrongBtn" class="text-xs bg-red-50 text-red-500 px-3 py-1.5 rounded-full active:bg-red-100 transition">清空</button>
+        </div>
+        <div id="wrongList" class="space-y-3"></div>
+        <div id="wrongEmpty" class="hidden text-center py-6 text-gray-400 text-sm">
+          <p>还没有错题</p>
+          <p class="mt-1">做错的题目会自动收集到这里，方便回顾</p>
+        </div>
+      </div>
+    </section>
+
     <!-- 设置 -->
     <section id="page-settings" class="page page-hidden space-y-4 pt-4">
       <div class="bg-white rounded-2xl p-5 card-shadow">
@@ -458,7 +515,8 @@
           { id: 3, text: '查看今日选题灵感并记录3个', done: false },
           { id: 4, text: '拍摄柯基日常或穿搭素材', done: false },
           { id: 5, text: '记录今日数据复盘', done: false },
-          { id: 6, text: '英语单词打卡（每日英语模块）', done: false }
+          { id: 6, text: '英语单词打卡（每日英语模块）', done: false },
+          { id: 7, text: '常识题目练习10道（常识积累模块）', done: false }
         ]
       },
       review: {
@@ -502,6 +560,12 @@
         streak: 0,
         last_checkin: null,
         history: []
+      },
+      knowledge: {
+        date: '',
+        practiced: [],
+        wrong: [],
+        total_practiced: 0
       },
       gist: {
         updated_at: null,
@@ -631,6 +695,70 @@
       { title: '职场英语口语：开会/汇报/社交', up: '职场英语君', bv: 'BV1uT4y1V7jE', desc: '职场高频口语场景，学会用英语自信开会、汇报和同事闲聊。' },
       { title: '英语口语流利说：克服开口恐惧', up: '英语老师大白', bv: 'BV1cW411E7jL', desc: '从不敢开口到自信表达，心理建设+实战练习双管齐下。' },
       { title: '看美剧学口语：经典台词精讲', up: '英语学习笔记', bv: 'BV1P5411Y7ep', desc: '精选美剧经典片段，拆解地道口语表达，看剧也能练口语。' }
+    ];
+
+    // ==================== 考公常识题库 ====================
+    const KNOWLEDGE_POOL = [
+      // ===== 政治 =====
+      { id: 1, category: '政治', question: '中国共产党第几次全国代表大会将习近平新时代中国特色社会主义思想写入党章？', options: ['十八大', '十九大', '二十大', '十八届三中全会'], answer: 1, explanation: '2017年党的十九大将习近平新时代中国特色社会主义思想写入党章，确立为党的指导思想。' },
+      { id: 2, category: '政治', question: '"四个自信"是指道路自信、理论自信、制度自信和？', options: ['文化自信', '历史自信', '民族自信', '价值观自信'], answer: 0, explanation: '"四个自信"由习近平总书记提出，指道路自信、理论自信、制度自信、文化自信。' },
+      { id: 3, category: '政治', question: '我国根本政治制度是？', options: ['中国共产党领导的多党合作和政治协商制度', '人民代表大会制度', '民族区域自治制度', '基层群众自治制度'], answer: 1, explanation: '人民代表大会制度是我国的根本政治制度。中国共产党领导的多党合作和政治协商制度是基本政治制度。' },
+      { id: 4, category: '政治', question: '"两个一百年"奋斗目标中，到建党一百年时的目标是？', options: ['全面建成小康社会', '基本实现现代化', '建成社会主义现代化强国', '实现共同富裕'], answer: 0, explanation: '到建党一百年（2021年）全面建成小康社会；到新中国成立一百年（2049年）建成社会主义现代化强国。' },
+      { id: 5, category: '政治', question: '社会主义核心价值观中，属于国家层面的价值目标是？', options: ['自由、平等、公正、法治', '爱国、敬业、诚信、友善', '富强、民主、文明、和谐', '创新、协调、绿色、开放'], answer: 2, explanation: '国家层面：富强、民主、文明、和谐；社会层面：自由、平等、公正、法治；个人层面：爱国、敬业、诚信、友善。' },
+      { id: 6, category: '政治', question: '"五位一体"总体布局不包括以下哪项？', options: ['经济建设', '政治建设', '文化建设', '军事建设'], answer: 3, explanation: '"五位一体"指经济建设、政治建设、文化建设、社会建设、生态文明建设。' },
+      { id: 7, category: '政治', question: '我国宪法规定，中华人民共和国的国家权力属于？', options: ['中国共产党', '全国人民代表大会', '人民', '国务院'], answer: 2, explanation: '宪法第二条规定：中华人民共和国的一切权力属于人民。' },
+      { id: 8, category: '政治', question: '"一带一路"是指？', options: ['丝绸之路经济带和21世纪海上丝绸之路', '长江经济带和沿海经济带', '京津冀协同发展和长江经济带', '西部大开发和东北振兴'], answer: 0, explanation: '"一带一路"即丝绸之路经济带和21世纪海上丝绸之路，2013年提出。' },
+
+      // ===== 法律 =====
+      { id: 9, category: '法律', question: '我国宪法规定，公民享有选举权和被选举权的年龄是？', options: ['16周岁', '18周岁', '20周岁', '22周岁'], answer: 1, explanation: '宪法第三十四条规定：年满十八周岁的公民，不分民族、种族、性别、职业、家庭出身，都有选举权和被选举权。' },
+      { id: 10, category: '法律', question: '下列哪项不属于公民的基本权利？', options: ['言论自由', '人身自由', '依法纳税', '宗教信仰自由'], answer: 2, explanation: '依法纳税是公民的基本义务，不是权利。言论自由、人身自由、宗教信仰自由都是基本权利。' },
+      { id: 11, category: '法律', question: '我国刑法规定，已满多少周岁的人犯罪应当负刑事责任？', options: ['14周岁', '16周岁', '18周岁', '12周岁'], answer: 1, explanation: '刑法规定：已满十六周岁的人犯罪，应当负刑事责任。已满十四周岁不满十六周岁的，犯故意杀人等严重罪行也应负刑事责任。' },
+      { id: 12, category: '法律', question: '行政诉讼的被告是？', options: ['公民', '法人', '行政机关', '其他组织'], answer: 2, explanation: '行政诉讼是公民、法人或其他组织认为行政机关及其工作人员的行政行为侵犯其合法权益，向法院提起的诉讼，被告是行政机关。' },
+      { id: 13, category: '法律', question: '下列哪种行为不属于民事法律行为？', options: ['签订合同', '结婚登记', '行政处罚', '遗嘱继承'], answer: 2, explanation: '行政处罚是行政行为，不是民事法律行为。民事法律行为是民事主体通过意思表示设立、变更、终止民事法律关系的行为。' },
+      { id: 14, category: '法律', question: '我国民法典正式施行的时间是？', options: ['2020年1月1日', '2021年1月1日', '2021年10月1日', '2022年1月1日'], answer: 1, explanation: '《中华人民共和国民法典》于2020年5月28日通过，2021年1月1日起施行。' },
+      { id: 15, category: '法律', question: '劳动法规定，劳动者每日工作时间不超过多少小时？', options: ['6小时', '7小时', '8小时', '9小时'], answer: 2, explanation: '劳动法第三十六条规定：国家实行劳动者每日工作时间不超过八小时、平均每周工作时间不超过四十四小时的工时制度。' },
+
+      // ===== 经济 =====
+      { id: 16, category: '经济', question: 'GDP是指？', options: ['国民生产总值', '国内生产总值', '国民收入', '社会总产值'], answer: 1, explanation: 'GDP（Gross Domestic Product）即国内生产总值，指一个国家或地区在一定时期内生产的全部最终产品和服务的市场价值。' },
+      { id: 17, category: '经济', question: '下列哪项不属于货币政策工具？', options: ['存款准备金率', '再贴现率', '公开市场业务', '税收'], answer: 3, explanation: '税收属于财政政策工具。货币政策工具包括存款准备金率、再贴现率、公开市场业务。' },
+      { id: 18, category: '经济', question: 'CPI是指？', options: ['生产者价格指数', '消费者价格指数', '国内生产总值平减指数', '工业品出厂价格指数'], answer: 1, explanation: 'CPI（Consumer Price Index）即消费者价格指数，是衡量通货膨胀的主要指标。' },
+      { id: 19, category: '经济', question: '我国目前实行的基本经济制度是？', options: ['单一公有制', '计划经济', '公有制为主体、多种所有制经济共同发展', '完全市场经济'], answer: 2, explanation: '我国基本经济制度是公有制为主体、多种所有制经济共同发展；分配制度是按劳分配为主体、多种分配方式并存。' },
+      { id: 20, category: '经济', question: '"供给侧结构性改革"的主线是？', options: ['扩大需求', '提高供给质量', '增加投资', '刺激消费'], answer: 1, explanation: '供给侧结构性改革的主线是提高供给质量，减少无效和低端供给，扩大有效和中高端供给。' },
+      { id: 21, category: '经济', question: '下列哪项不属于"三去一降一补"？', options: ['去产能', '去库存', '去杠杆', '去城市化'], answer: 3, explanation: '"三去一降一补"指去产能、去库存、去杠杆、降成本、补短板。' },
+
+      // ===== 历史 =====
+      { id: 22, category: '历史', question: '中国历史上第一个统一的中央集权王朝是？', options: ['夏朝', '商朝', '秦朝', '汉朝'], answer: 2, explanation: '公元前221年，秦始皇统一六国，建立中国历史上第一个统一的中央集权王朝——秦朝。' },
+      { id: 23, category: '历史', question: '五四运动发生的时间是？', options: ['1911年', '1915年', '1919年', '1921年'], answer: 2, explanation: '1919年5月4日，北京学生发起反帝反封建的爱国运动，标志着中国新民主主义革命的开端。' },
+      { id: 24, category: '历史', question: '下列哪项不是辛亥革命的意义？', options: ['推翻了清朝统治', '结束了君主专制制度', '建立了共和国', '完成了反帝反封建任务'], answer: 3, explanation: '辛亥革命推翻了清朝统治，结束了君主专制制度，但没有完成反帝反封建的任务，这个任务由新民主主义革命完成。' },
+      { id: 25, category: '历史', question: '中国共产党成立于哪一年？', options: ['1919年', '1920年', '1921年', '1922年'], answer: 2, explanation: '1921年7月23日，中国共产党第一次全国代表大会在上海召开，标志着中国共产党成立。' },
+      { id: 26, category: '历史', question: '遵义会议召开于哪一年？', options: ['1934年', '1935年', '1936年', '1937年'], answer: 1, explanation: '1935年1月，遵义会议召开，确立了毛泽东在党中央和红军的领导地位，是党的历史上生死攸关的转折点。' },
+      { id: 27, category: '历史', question: '下列哪个条约不是不平等条约？', options: ['南京条约', '马关条约', '辛丑条约', '尼布楚条约'], answer: 3, explanation: '尼布楚条约是1689年中俄签订的平等条约。南京条约、马关条约、辛丑条约都是不平等条约。' },
+
+      // ===== 地理 =====
+      { id: 28, category: '地理', question: '我国面积最大的省级行政区是？', options: ['西藏自治区', '新疆维吾尔自治区', '内蒙古自治区', '青海省'], answer: 1, explanation: '新疆维吾尔自治区面积约166万平方公里，是我国面积最大的省级行政区。' },
+      { id: 29, category: '地理', question: '世界上最长的河流是？', options: ['长江', '亚马逊河', '尼罗河', '密西西比河'], answer: 2, explanation: '尼罗河全长约6650公里，是世界上最长的河流。长江约6300公里，是世界第三长河。' },
+      { id: 30, category: '地理', question: '我国最南端的领土是？', options: ['海南岛', '曾母暗沙', '西沙群岛', '南沙群岛'], answer: 1, explanation: '曾母暗沙位于南沙群岛南端，是我国最南端的领土。' },
+      { id: 31, category: '地理', question: '下列哪项不是我国四大高原？', options: ['青藏高原', '内蒙古高原', '黄土高原', '云贵高原', '帕米尔高原'], answer: 4, explanation: '我国四大高原是青藏高原、内蒙古高原、黄土高原、云贵高原。帕米尔高原不在其中。' },
+      { id: 32, category: '地理', question: '我国年降水量最多的地方是？', options: ['海南三亚', '台湾火烧寮', '广东广州', '云南西双版纳'], answer: 1, explanation: '台湾火烧寮年均降水量超过6000毫米，是我国年降水量最多的地方。' },
+      { id: 33, category: '地理', question: '长江发源于哪里？', options: ['唐古拉山', '巴颜喀拉山', '昆仑山', '祁连山'], answer: 0, explanation: '长江发源于青藏高原唐古拉山脉主峰各拉丹冬，流经11个省区市，注入东海。' },
+
+      // ===== 科技 =====
+      { id: 34, category: '科技', question: '我国第一颗人造地球卫星是？', options: ['神舟一号', '东方红一号', '嫦娥一号', '北斗一号'], answer: 1, explanation: '1970年4月24日，东方红一号卫星成功发射，是我国第一颗人造地球卫星。' },
+      { id: 35, category: '科技', question: '下列哪项不是中国古代四大发明？', options: ['造纸术', '印刷术', '地动仪', '火药'], answer: 2, explanation: '中国古代四大发明是造纸术、印刷术、火药、指南针。地动仪是东汉张衡发明的，不属于四大发明。' },
+      { id: 36, category: '科技', question: '我国第一个月球探测器是？', options: ['嫦娥一号', '天问一号', '玉兔号', '鹊桥号'], answer: 0, explanation: '嫦娥一号于2007年发射，是我国第一个月球探测器。天问一号是火星探测器。' },
+      { id: 37, category: '科技', question: '下列哪项不属于"新四大发明"？', options: ['高铁', '扫码支付', '共享单车', '5G通信'], answer: 3, explanation: '"新四大发明"指高铁、扫码支付、共享单车、网购。5G通信不在其中。' },
+      { id: 38, category: '科技', question: '世界上第一个成功登月的人是？', options: ['加加林', '阿姆斯特朗', '奥尔德林', '列昂诺夫'], answer: 1, explanation: '1969年7月20日，美国阿波罗11号的阿姆斯特朗成为第一个踏上月球的人。' },
+
+      // ===== 文学文化 =====
+      { id: 39, category: '文化', question: '"四书"不包括以下哪部？', options: ['大学', '中庸', '论语', '春秋'], answer: 3, explanation: '"四书"指《大学》《中庸》《论语》《孟子》。《春秋》属于"五经"。' },
+      { id: 40, category: '文化', question: '下列哪位不是"唐宋八大家"？', options: ['韩愈', '柳宗元', '李白', '苏轼'], answer: 2, explanation: '"唐宋八大家"指韩愈、柳宗元、欧阳修、苏洵、苏轼、苏辙、王安石、曾巩。李白不在其中。' },
+      { id: 41, category: '文化', question: '"但愿人长久，千里共婵娟"中"婵娟"指什么？', options: ['月亮', '美女', '花朵', '茶'], answer: 0, explanation: '此句出自苏轼《水调歌头》，"婵娟"指月亮，表达对远方亲人的思念。' },
+      { id: 42, category: '文化', question: '下列哪项不属于"二十四节气"？', options: ['立春', '惊蛰', '中秋', '冬至'], answer: 2, explanation: '中秋不是节气，是传统节日。二十四节气包括立春、惊蛰、冬至等。' },
+
+      // ===== 时政补充 =====
+      { id: 43, category: '政治', question: '"新发展理念"是指创新、协调、绿色、开放和？', options: ['共享', '公平', '高效', '可持续'], answer: 0, explanation: '新发展理念指创新、协调、绿色、开放、共享。' },
+      { id: 44, category: '经济', question: '"双循环"新发展格局是指？', options: ['以国际大循环为主体', '以国内大循环为主体，国内国际双循环相互促进', '以出口为主导', '以投资拉动为主'], answer: 1, explanation: '"双循环"指以国内大循环为主体、国内国际双循环相互促进的新发展格局。' },
+      { id: 45, category: '政治', question: '党的二十大报告指出，从2035年到本世纪中叶，把我国建成？', options: ['小康社会', '基本实现现代化的国家', '富强民主文明和谐美丽的社会主义现代化强国', '中等发达国家'], answer: 2, explanation: '党的二十大明确：从2035年到本世纪中叶，把我国建成富强民主文明和谐美丽的社会主义现代化强国。' }
     ];
 
     // ==================== 工具函数 ====================
@@ -1510,6 +1638,207 @@
       }
     }
 
+    // ==================== 常识积累 ====================
+    function getDailyKnowledge() {
+      // 根据日期种子每天选10题，优先选未做过的
+      const today = new Date().toISOString().split('T')[0];
+      const seed = today.split('-').join('');
+      const num = parseInt(seed);
+      const count = KNOWLEDGE_POOL.length;
+      const practiced = (appData.knowledge.practiced || []).map(p => p.id);
+      const result = [];
+      const used = new Set();
+      let idx = num % count;
+      let attempts = 0;
+      while (result.length < 10 && attempts < count * 3) {
+        if (!used.has(idx)) {
+          const q = KNOWLEDGE_POOL[idx];
+          if (!practiced.includes(q.id)) {
+            result.push(q);
+            used.add(idx);
+          }
+        }
+        idx = (idx + 7) % count;
+        attempts++;
+      }
+      // 不够10个就用已做过的补
+      if (result.length < 10) {
+        idx = num % count;
+        while (result.length < 10) {
+          if (!used.has(idx)) {
+            result.push(KNOWLEDGE_POOL[idx]);
+            used.add(idx);
+          }
+          idx = (idx + 7) % count;
+        }
+      }
+      return result;
+    }
+
+    function checkKnowledgeDailyReset() {
+      const today = getTodayStr();
+      if (appData.knowledge.date !== today) {
+        appData.knowledge.date = today;
+        appData.knowledge.practiced = [];
+        saveData();
+      }
+    }
+
+    function renderKnowledge() {
+      checkKnowledgeDailyReset();
+      const today = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' });
+      document.getElementById('knowledgeDate').textContent = today;
+      document.getElementById('knowledgeTotal').textContent = appData.knowledge.total_practiced || 0;
+
+      const questions = getDailyKnowledge();
+      const practiced = appData.knowledge.practiced || [];
+      const container = document.getElementById('knowledgeList');
+      container.innerHTML = '';
+
+      const categoryColors = {
+        '政治': 'bg-red-100 text-red-600',
+        '法律': 'bg-blue-100 text-blue-600',
+        '经济': 'bg-green-100 text-green-600',
+        '历史': 'bg-amber-100 text-amber-600',
+        '地理': 'bg-teal-100 text-teal-600',
+        '科技': 'bg-purple-100 text-purple-600',
+        '文化': 'bg-pink-100 text-pink-600'
+      };
+
+      questions.forEach((q, idx) => {
+        const practicedItem = practiced.find(p => p.id === q.id);
+        const isAnswered = !!practicedItem;
+        const userAnswer = practicedItem ? practicedItem.userAnswer : -1;
+        const isCorrect = practicedItem ? practicedItem.correct : false;
+
+        const div = document.createElement('div');
+        div.className = 'bg-olive-50 rounded-xl p-4 transition ' + (isAnswered ? (isCorrect ? 'opacity-70' : 'opacity-90') : '');
+        const catColor = categoryColors[q.category] || 'bg-gray-100 text-gray-600';
+
+        let optionsHtml = '';
+        q.options.forEach((opt, oi) => {
+          let optClass = 'bg-white text-gray-700';
+          let badge = '';
+          if (isAnswered) {
+            if (oi === q.answer) {
+              optClass = 'bg-green-50 text-green-700 border border-green-300';
+              badge = ' ✓';
+            } else if (oi === userAnswer) {
+              optClass = 'bg-red-50 text-red-700 border border-red-300';
+              badge = ' ✗';
+            }
+          }
+          optionsHtml += `<button class="knowledge-option w-full text-left text-sm ${optClass} rounded-lg px-3 py-2 mb-1.5 transition active:opacity-80" data-qid="${q.id}" data-oidx="${oi}" ${isAnswered ? 'disabled' : ''}>${String.fromCharCode(65 + oi)}. ${escapeHtml(opt)}${badge}</button>`;
+        });
+
+        div.innerHTML = `
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-olive-600 text-white text-xs px-2 py-0.5 rounded-full">#${idx + 1}</span>
+            <span class="text-xs px-2 py-0.5 rounded-full ${catColor}">${escapeHtml(q.category)}</span>
+            ${isAnswered ? (isCorrect ? '<span class="text-xs text-green-600">✓ 正确</span>' : '<span class="text-xs text-red-500">✗ 错误</span>') : ''}
+          </div>
+          <p class="text-sm font-medium text-gray-800 mb-3">${escapeHtml(q.question)}</p>
+          <div class="space-y-0">${optionsHtml}</div>
+          ${isAnswered ? `<div class="mt-2 bg-white rounded-lg p-2 text-xs text-gray-600"><b>解析：</b>${escapeHtml(q.explanation)}</div>` : ''}
+        `;
+        container.appendChild(div);
+      });
+
+      // 绑定选项点击
+      container.querySelectorAll('.knowledge-option').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const qid = parseInt(e.target.dataset.qid);
+          const oidx = parseInt(e.target.dataset.oidx);
+          const question = KNOWLEDGE_POOL.find(q => q.id === qid);
+          if (!question) return;
+          const correct = oidx === question.answer;
+
+          if (!appData.knowledge.practiced) appData.knowledge.practiced = [];
+          appData.knowledge.practiced.push({ id: qid, userAnswer: oidx, correct: correct, date: getTodayStr() });
+          appData.knowledge.total_practiced = (appData.knowledge.total_practiced || 0) + 1;
+
+          // 错题加入错题本
+          if (!correct) {
+            if (!appData.knowledge.wrong) appData.knowledge.wrong = [];
+            if (!appData.knowledge.wrong.find(w => w.id === qid)) {
+              appData.knowledge.wrong.push({ id: qid, date: getTodayStr() });
+            }
+          }
+
+          saveData();
+          renderKnowledge();
+          renderWrongList();
+          updateKnowledgeProgress();
+        });
+      });
+
+      renderWrongList();
+      updateKnowledgeProgress();
+    }
+
+    function updateKnowledgeProgress() {
+      const total = 10;
+      const done = (appData.knowledge.practiced || []).length;
+      const pct = total ? Math.round(done / total * 100) : 0;
+      document.getElementById('knowledgeProgressBar').style.width = pct + '%';
+      document.getElementById('knowledgeProgressText').textContent = `今日进度：${done}/${total} 题`;
+      document.getElementById('knowledgeTotal').textContent = appData.knowledge.total_practiced || 0;
+    }
+
+    function renderWrongList() {
+      const wrongIds = (appData.knowledge.wrong || []).map(w => w.id);
+      const container = document.getElementById('wrongList');
+      const emptyDiv = document.getElementById('wrongEmpty');
+      const stats = document.getElementById('wrongStats');
+
+      stats.textContent = '共 ' + wrongIds.length + ' 题';
+
+      if (wrongIds.length === 0) {
+        container.innerHTML = '';
+        container.classList.add('hidden');
+        emptyDiv.classList.remove('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      emptyDiv.classList.add('hidden');
+      container.innerHTML = '';
+
+      const categoryColors = {
+        '政治': 'bg-red-100 text-red-600',
+        '法律': 'bg-blue-100 text-blue-600',
+        '经济': 'bg-green-100 text-green-600',
+        '历史': 'bg-amber-100 text-amber-600',
+        '地理': 'bg-teal-100 text-teal-600',
+        '科技': 'bg-purple-100 text-purple-600',
+        '文化': 'bg-pink-100 text-pink-600'
+      };
+
+      wrongIds.forEach(qid => {
+        const q = KNOWLEDGE_POOL.find(item => item.id === qid);
+        if (!q) return;
+        const catColor = categoryColors[q.category] || 'bg-gray-100 text-gray-600';
+        const div = document.createElement('div');
+        div.className = 'bg-red-50 rounded-xl p-4';
+        div.innerHTML = `
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">✗ 错题</span>
+            <span class="text-xs px-2 py-0.5 rounded-full ${catColor}">${escapeHtml(q.category)}</span>
+          </div>
+          <p class="text-sm font-medium text-gray-800 mb-2">${escapeHtml(q.question)}</p>
+          <div class="space-y-1 mb-2">
+            ${q.options.map((opt, oi) => {
+              let cls = 'text-gray-600';
+              if (oi === q.answer) cls = 'text-green-700 font-medium';
+              return `<p class="text-sm ${cls}">${String.fromCharCode(65 + oi)}. ${escapeHtml(opt)}${oi === q.answer ? ' ✓' : ''}</p>`;
+            }).join('')}
+          </div>
+          <div class="bg-white rounded-lg p-2 text-xs text-gray-600"><b>解析：</b>${escapeHtml(q.explanation)}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
     // ==================== 页面切换 ====================
     function switchPage(page) {
       currentPage = page;
@@ -1521,7 +1850,7 @@
       const titles = {
         daily: '每日计划', ideas: '选题灵感', recreate: '爆款二创',
         review: '内容复盘', memo: '备忘录', math: '速算练习', essay: '申论积累',
-        english: '每日英语', settings: '设置'
+        english: '每日英语', knowledge: '常识积累', settings: '设置'
       };
       document.getElementById('pageTitle').textContent = titles[page] || '创作工作台';
 
@@ -1664,7 +1993,7 @@
     // ==================== 事件绑定 ====================
     document.addEventListener('DOMContentLoaded', () => {
       checkDailyReset();
-      renderDaily(); renderIdeas(); renderRecreate(); renderReview(); renderMemo(); renderMath(); renderEssay(); renderEnglish(); renderSettings();
+      renderDaily(); renderIdeas(); renderRecreate(); renderReview(); renderMemo(); renderMath(); renderEssay(); renderEnglish(); renderKnowledge(); renderSettings();
 
       // 菜单
       document.getElementById('menuBtn').addEventListener('click', openDrawer);
@@ -1735,6 +2064,24 @@
       document.getElementById('wordbankSearch').addEventListener('input', e => {
         wordbankSearchText = e.target.value;
         renderWordbank();
+      });
+
+      // 常识积累
+      document.getElementById('refreshKnowledgeBtn').addEventListener('click', () => {
+        renderKnowledge();
+        showToast('已刷新今日题目');
+      });
+      document.getElementById('clearWrongBtn').addEventListener('click', () => {
+        if (!appData.knowledge.wrong || appData.knowledge.wrong.length === 0) {
+          showToast('错题本为空');
+          return;
+        }
+        if (confirm('确定清空错题本吗？')) {
+          appData.knowledge.wrong = [];
+          saveData();
+          renderWrongList();
+          showToast('错题本已清空');
+        }
       });
 
       // 设置页
